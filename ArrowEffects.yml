@@ -1,0 +1,502 @@
+#The recipes are handled here
+#Some arrows have special options, make sure you check them out! :)
+Recipes:
+#Handles the crippling arrow
+  Crippling:
+#Is the arrow enabled? Aka can it be crafted? (NOTE: If this is false, any arrow ALREADY crafted can STILL be shot!)
+    Enabled: true
+#The arrows name as it appears ingame
+    Name: Crippling Arrow
+#The arrows lore (NOTE: If you change this, all arrows that have PREVIOUSLY been crafted will no longer work! If you have a FRESH install, feel free to change this!)
+    Desc: Slows down target
+#How long should the arrow do it's effect in ticks? Seconds*20 = ticks (For example, 5 seconds are 100 ticks)
+    Duration: 60
+#How powerful should the arrow's effect be? (For potion effects) This would be SLOWNESS II
+    Power: 2
+#How many arrows should be crafted per recipe?
+    Amount: 1
+#Each ShapeChar is set to one CharMat (A is Feather, B is Stick, C is snowball, D is empty space). You can freely add to this list up to 9 ShapeChars (Because MineCraft has max. 9 different Crafting components!)
+#Shape-1 to Shape-3 looks like a crafting grid (Like a crafting table ingame!) It will take the ShapeChars, and the plugin will look which ShapeMat is linked to it, and prepare the crafting recipe.
+#If you want your CharMat to have a DataValue, simply add a ',' (comma) and the number behind it like so: - LOG,2 (this would be birch wood)
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - FEATHER
+    - STICK
+    - SNOW_BALL
+    - AIR
+    Shape-1: CCC
+    Shape-2: DBD
+    Shape-3: DAD
+  Weakness:
+    Enabled: true
+    Name: Weakness Arrow
+    Desc: Weaken foes
+    Duration: 140
+    Power: 1
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - STICK
+    - FEATHER
+    - CACTUS
+    - AIR
+    Shape-1: CCC
+    Shape-2: DAD
+    Shape-3: DBD
+  Teleport:
+    Enabled: true
+    Name: Teleport Arrow
+    Desc: Teleports you to your arrow
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - FEATHER
+    - STICK
+    - BOOK
+    - AIR
+    Shape-1: DCD
+    Shape-2: DBD
+    Shape-3: DAD
+  Explosive:
+    Enabled: true
+    Name: Explosive Arrow
+    Desc: Create an explosion
+    Power: 4
+    Amount: 1
+    BreakBlocks: true
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - TNT
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Blinding:
+    Enabled: true
+    Name: Blinding Arrow
+    Desc: Blinds your target
+    Duration: 45
+    Power: 0
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - ROTTEN_FLESH
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: AAA
+    Shape-2: DBD
+    Shape-3: DCD
+  Shuffle:
+    Enabled: true
+    Name: Shuffle Arrow
+    Desc: Switch position with your target
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - ENDER_PEARL
+    - FEATHER
+    - STICK
+    - AIR
+    Shape-1: DAD
+    Shape-2: DCD
+    Shape-3: DBD
+  Lightning:
+    Enabled: true
+    Name: Lightning Arrow
+    Desc: Strike down lightning
+#How many lightning strikes should be spawned?
+    Count: 2
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - BLAZE_ROD
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Confusion:
+    Enabled: true
+    Name: Confusion Arrow
+    Desc: Confuses target
+    Duration: 160
+    Power: 0
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    - E
+    CharMats:
+    - RED_MUSHROOM
+    - STICK
+    - BROWN_MUSHROOM
+    - FEATHER
+    - AIR
+    Shape-1: CAC
+    Shape-2: EBE
+    Shape-3: EDE
+  Tnt:
+    Enabled: true
+    Name: TnT Arrow
+    Desc: Explode your target
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - SULPHUR
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: ADA
+    Shape-2: DBD
+    Shape-3: DCD
+  Poison:
+    Enabled: true
+    Name: Poison Arrow
+    Desc: Poison your target
+    Duration: 60
+    Power: 2
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - SPIDER_EYE
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Fire:
+    Enabled: true
+    Name: Fire Arrow
+    Desc: Set your enemy alight
+    Duration: 60
+#Should the arrow light surrounding blocks on fire?
+    BurnBlocks: true
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - FIREBALL
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Pull:
+    Enabled: true
+    Name: Pull Arrow
+    Desc: Pulls target to you
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - STRING
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: AAA
+    Shape-2: DBD
+    Shape-3: DCD
+  Blood:
+    Enabled: true
+    Name: Blood Arrow
+    Desc: Deals damage and heals you
+#For how much should it heal? HealPower = hearts/2 (So 6 HealPower = 3 Hearts)
+    HealPower: 6
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - BONE
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Piercing:
+    Enabled: true
+    Name: Piercing Arrow
+    Desc: Deals bonus damage to armored targets
+#How much bonus damage should be applied? BonusDamage/2 = Hearts (So 4 BonusDamage = 2 Hearts)
+    BonusDamage: 4
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - IRON_INGOT
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Razor:
+    Enabled: true
+    Name: Razor Arrow
+    Desc: Deals bonus damage to unarmored targets
+#How much bonus damage should be applied? BonusDamage/2 = Hearts (So 4 BonusDamage = 2 Hearts)
+    BonusDamage: 4
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - GLASS
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Torch:
+    Enabled: true
+    Name: Torch Arrow
+    Desc: Light up your surroundings
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - TORCH
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Net:
+    Enabled: true
+    Name: Net Arrow
+    Desc: Immobilize your target
+    Amount: 1
+#Should we try to remove the webs after x seconds?
+    CleanUpWebs: true
+#After how many ticks should we remove the webs? 20*seconds = ticks (So 5 seconds are 100 ticks, etc)
+    CleanUpWebsDelay: 100
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - SLIME_BALL
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Water:
+    Enabled: true
+    Name: Water Arrow
+    Desc: Flush away your enemies
+    Amount: 1
+#Should we try to remove the water after x seconds?
+    CleanUpWater: true
+#After how many ticks should we remove the water? 20*seconds = ticks (So 5 seconds are 100 ticks, etc)
+    CleanUpWaterDelay: 100
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - WATER_BUCKET
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Sound:
+    Enabled: true
+    Name: Sound Arrow
+    Desc: Scare your enemies away
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - NOTE_BLOCK
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Push:
+    Enabled: true
+    Name: FUS RO DAH Arrow
+    Desc: Push enemies away
+#How far should we push enemies? In blocks.
+    Power: 2
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - BRICK
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: AAA
+    Shape-2: DBD
+    Shape-3: DCD
+  Vortex:
+    Enabled: true
+    Name: Vortex Arrow
+    Desc: Sucks enemies into the vortex
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - EYE_OF_ENDER
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Forcefield:
+    Enabled: true
+    Name: Forcefield Arrow
+    Desc: Pushes enemies away
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - IRON_FENCE
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: AAA
+    Shape-2: DBD
+    Shape-3: DCD
+  Wither:
+    Enabled: true
+    Name: Wither Arrow
+    Desc: Shoot a Witherskull
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - SKULL_ITEM,1
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
+  Ice:
+    Enabled: true
+    Name: Ice Arrow
+    Desc: Turn water to ice!
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    - E
+    CharMats:
+    - WATER_BUCKET
+    - SNOW_BALL
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: BAB
+    Shape-2: ECE
+    Shape-3: EDE
+  Medic:
+    Enabled: true
+    Name: Medical Arrow
+    Desc: Provide healing
+    Amount: 1
+#For how much health should 1 arrow heal? 2 health = 1 complete heart.
+    HealPower: 8
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - GOLDEN_CARROT
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
