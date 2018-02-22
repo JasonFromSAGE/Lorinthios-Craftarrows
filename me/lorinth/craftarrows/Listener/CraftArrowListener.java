@@ -4,17 +4,17 @@ import me.lorinth.craftarrows.Arrows.ArrowVariant;
 import me.lorinth.craftarrows.Arrows.MedicArrowVariant;
 import me.lorinth.craftarrows.Constants.MetadataTags;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import java.util.List;
 
 public class CraftArrowListener implements Listener {
 
@@ -26,15 +26,24 @@ public class CraftArrowListener implements Listener {
             if(event.getEntity() instanceof Player) {
                 ItemStack arrowItem = getArrowBeingShot((Player) event.getEntity());
                 if(arrowItem != null && arrowItem.hasItemMeta()) {
-                    ArrowVariant variant = LorinthsCraftArrows.getArrowVariantForName(arrowItem.getItemMeta().getDisplayName().trim());
+                    ArrowVariant variant = LorinthsCraftArrows.getArrowVariantForItemName(arrowItem.getItemMeta().getDisplayName().trim());
+                    if(LorinthsCraftArrows.properties.UsePermissions && (!event.getEntity().hasPermission("craftarrow." + variant.getName().toLowerCase()) && !event.getEntity().hasPermission("craftarrow.all"))) {
+                        event.getEntity().sendMessage(ChatColor.RED + "[CraftArrows] : You don't have permission to shoot, " + variant.getName() + " arrows");
+                        event.setCancelled(true);
+                        return;
+                    }
                     if(variant != null) {
                         arrow.setMetadata(MetadataTags.ArrowVariant, new FixedMetadataValue(LorinthsCraftArrows.instance, variant));
                         variant.onShoot(event);
                     }
                 }
             }
-            if(event.getEntity() instanceof Skeleton){
-                //Randomly select an arrow
+            if(event.getEntity() instanceof Skeleton && LorinthsCraftArrows.properties.SkeletonCanShootArrow){
+                ArrowVariant variant = LorinthsCraftArrows.getRandomArrowVariant();
+                if(variant != null) {
+                    arrow.setMetadata(MetadataTags.ArrowVariant, new FixedMetadataValue(LorinthsCraftArrows.instance, variant));
+                    variant.onShoot(event);
+                }
             }
         }
     }
@@ -79,9 +88,24 @@ public class CraftArrowListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSkeletonDeath(EntityDeathEvent event){
-        if(event.getEntity() instanceof Player){
-            //Add random arrow and count to drops
-            //event.getDrops();
+        if(event.getEntity() instanceof Skeleton && LorinthsCraftArrows.properties.SkeletonsDropArrows){
+            List<ItemStack> drops = event.getDrops();
+            for(int i=0; i<drops.size(); i++){
+                ItemStack item = drops.get(i);
+                if(item.getType() == Material.ARROW){
+                    drops.set(i, LorinthsCraftArrows.getRandomArrowDrop());
+                }
+            }
+        }
+    }
+
+    public void onEntityExplosion(EntityExplodeEvent event){
+        Entity entity = event.getEntity();
+        if(entity instanceof WitherSkull){
+            if(entity.hasMetadata("BreakBlocks")){
+                if(entity.getMetadata("BreakBlocks").get(0).asBoolean())
+                    event.blockList().clear();
+            }
         }
     }
 

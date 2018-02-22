@@ -1,5 +1,6 @@
 package me.lorinth.craftarrows.Objects;
 
+import me.lorinth.craftarrows.Util.ConfigHelper;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigValue<T> {
@@ -31,7 +32,8 @@ public class ConfigValue<T> {
     }
 
     public void setDefault(FileConfiguration config){
-        config.set(path, value);
+        if(!ConfigHelper.ConfigContainsPath(config, path))
+            config.set(path, value);
     }
 
 }

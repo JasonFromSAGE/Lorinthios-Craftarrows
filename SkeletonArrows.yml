@@ -1,0 +1,52 @@
+#Defines how likely it is for Skeletons to shoot certain arrows: Higher values mean higher chance! 0 = disabled
+ShootChance:
+  Normal: 43
+  Crippling: 5
+  Blinding: 3
+  Weakness: 4
+  Tnt: 1
+  Shuffle: 2
+  Lightning: 2
+  Confusion:  3
+  Poison: 2
+  Fire: 2
+  Pull: 2
+  Blood: 3
+  Piercing: 3
+  Razor: 3
+  Wither: 1
+#Defines how likely it is for Skeletons to drop certain arrows: Higher values mean higher chance! 0 = disabled
+DropChance:
+  Normal: 30
+  Crippling: 10
+  Blinding: 10
+  Weakness: 10
+  Teleport: 10
+  Explosive: 10
+  Shuffle: 10
+  Lightning:  10
+  Confusion: 10
+  Tnt: 10
+  Poison: 10
+  Fire: 10
+  Pull: 10
+  Blood: 10
+  Piercing: 10
+  Razor: 10
+  Torch: 10
+  Net: 10
+  Water: 10
+  Forcefield: 10
+  Vortex: 10
+  Push: 10
+  Sound: 10
+  Wither: 10
+  Medic: 10
+  Ice: 10
+#Should we always drop a fixed amount of arrows?
+DropFixedAmount: false
+#If DropFixedAmount is true, use "Amount" to set the amount of arrows dropped by skeletons
+Amount: 2
+#If DropFixedAmount is false (default), use Min to set the minimum drop, and Max to set the maximum drop amount
+Min: 1
+Max: 3

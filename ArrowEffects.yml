@@ -446,6 +446,7 @@ Recipes:
     Enabled: true
     Name: Wither Arrow
     Desc: Shoot a Witherskull
+    BreakBlocks: false
     Amount: 1
     ShapeChars:
     - A

@@ -38,6 +38,7 @@ public class ArrowRecipe {
     public String getItemName(){
         return itemName;
     }
+    public ItemStack getItem(){ return item; }
     public boolean isDisabled(){ return isDisabled; }
 
     private void load(FileConfiguration config, String prefix, String name){

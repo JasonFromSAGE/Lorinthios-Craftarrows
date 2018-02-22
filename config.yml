@@ -1,0 +1,10 @@
+#Set false if you are not using a permission system
+UsePermissions: false
+#Allow infinity bows to shoot special arrows without it taking the arrow?
+InfinityBowWorks: false
+#Automatically update the plugin to a newer version? (Recommended! Newer versions will always work for older Craftbukkit version of 1.4.6 and higher! :) )
+AutoUpdate: false
+#Can Skeletons shoot arrows? --> Define % in SkeletonArrows.yml!
+SkeletonCanShootArrow: true
+#Should Skeletons drop special arrows?
+SkeletonsDropArrows: true

@@ -2,12 +2,9 @@ package me.lorinth.craftarrows.Arrows;
 
 import me.lorinth.craftarrows.Objects.ArrowRecipe;
 import me.lorinth.craftarrows.Objects.ConfigValue;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 
 import java.util.ArrayList;
 
@@ -24,10 +21,16 @@ public abstract class ArrowVariant {
     }
 
     public ArrowVariant(FileConfiguration config, String path, String name, ArrayList<ConfigValue> configValues){
+        setDefaults(config, configValues);
         this.name = name;
         recipe = new ArrowRecipe(config, path, name);
         this.configValues.addAll(configValues);
         loadDetails(config);
+    }
+
+    private void setDefaults(FileConfiguration config, ArrayList<ConfigValue> configValues){
+        for(ConfigValue configValue : configValues)
+            configValue.setDefault(config);
     }
 
     public String getName(){ return name; }
