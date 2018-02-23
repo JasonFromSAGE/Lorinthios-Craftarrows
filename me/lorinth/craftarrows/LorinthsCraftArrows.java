@@ -3,6 +3,7 @@ package me.lorinth.craftarrows;
 import me.lorinth.craftarrows.Arrows.*;
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Listener.CraftArrowListener;
+import me.lorinth.craftarrows.Listener.UpdaterEventListener;
 import me.lorinth.craftarrows.Objects.*;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import org.bukkit.Bukkit;
@@ -23,6 +24,7 @@ public class LorinthsCraftArrows extends JavaPlugin {
     public static LorinthsCraftArrows instance;
     public static Properties properties = new Properties();
     private YamlConfiguration skeletonArrows;
+    private Updater updater;
     private static HashMap<String, ArrowVariant> arrowVariantsByItemName = new HashMap<>();
     private static HashMap<String, ArrowVariant> arrowVariantsByName = new HashMap<>();
     private static RandomCollection<ItemStack> randomArrowDrops;
@@ -40,6 +42,9 @@ public class LorinthsCraftArrows extends JavaPlugin {
         loadArrows();
         loadArrowDropData();
         Bukkit.getPluginManager().registerEvents(new CraftArrowListener(), this);
+        Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
+
+        checkAutoUpdates();
     }
 
     private void loadConfig(){
@@ -55,6 +60,13 @@ public class LorinthsCraftArrows extends JavaPlugin {
         if(arrowVariantsByItemName.containsKey(name))
             return arrowVariantsByItemName.get(name);
         return null;
+    }
+
+    private void checkAutoUpdates(){
+        if(properties.AutoUpdate)
+            updater = new Updater(this, getFile(), Updater.UpdateType.DEFAULT);
+        else
+            updater = new Updater(this, getFile(), Updater.UpdateType.NO_DOWNLOAD);
     }
 
     public static ItemStack getRandomArrowDrop(){
