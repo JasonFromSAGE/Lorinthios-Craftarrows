@@ -5,4 +5,4 @@ main: me.lorinth.craftarrows.LorinthsCraftArrows
 commands:
   lca:
     description: Access to LorinthsCraftArrows Commands
-    permission: lca.admin
+    permission: craftarrow.reload
