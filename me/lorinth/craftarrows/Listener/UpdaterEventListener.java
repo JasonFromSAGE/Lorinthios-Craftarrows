@@ -21,7 +21,7 @@ public class UpdaterEventListener implements Listener{
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        if((player.hasPermission("lrm.update") || player.isOp()) && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE)
+        if((player.hasPermission("craftarrows.update") || player.isOp()) && updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE)
             OutputHandler.PrintCommandInfo(player, "[CraftArrows] : " + OutputHandler.HIGHLIGHT + "An Update is Available!");
     }
 

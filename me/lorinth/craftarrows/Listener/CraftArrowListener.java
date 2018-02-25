@@ -1,6 +1,7 @@
 package me.lorinth.craftarrows.Listener;
 
 import me.lorinth.craftarrows.Arrows.ArrowVariant;
+import me.lorinth.craftarrows.Arrows.CombatArrowVariant;
 import me.lorinth.craftarrows.Arrows.MedicArrowVariant;
 import me.lorinth.craftarrows.Constants.MetadataTags;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
@@ -58,11 +59,19 @@ public class CraftArrowListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onProjectileHitEntity(EntityDamageByEntityEvent event){
         if(event.getDamager() instanceof Arrow) {
-            if (event.getDamager() instanceof Arrow && event.getDamager().hasMetadata(MetadataTags.ArrowVariant) && event.getEntity() instanceof LivingEntity) {
-                LivingEntity entity = (LivingEntity) event.getEntity();
-                ArrowVariant variant = event.getDamager().getMetadata(MetadataTags.ArrowVariant) != null ? (ArrowVariant) event.getDamager().getMetadata(MetadataTags.ArrowVariant).get(0).value() : null;
-                if(variant instanceof MedicArrowVariant)
-                    ((MedicArrowVariant) variant).onEntityHit(event, entity);
+            if (event.getDamager() instanceof Arrow){
+                if(event.getDamager().hasMetadata(MetadataTags.ArrowVariant) && event.getEntity() instanceof LivingEntity)
+                {
+                    LivingEntity entity = (LivingEntity) event.getEntity();
+                    ArrowVariant variant = event.getDamager().getMetadata(MetadataTags.ArrowVariant) != null ? (ArrowVariant) event.getDamager().getMetadata(MetadataTags.ArrowVariant).get(0).value() : null;
+                    if (variant instanceof CombatArrowVariant) {
+                        ((CombatArrowVariant) variant).onEntityHit(event, (Projectile) event.getDamager(), entity);
+                        event.getDamager().remove();
+                    }
+                }
+                if(event.getDamager().hasMetadata("LCA.Damage"))
+                    event.setDamage(event.getDamager().getMetadata("LCA.Damage").get(0).asDouble());
+
             }
         }
     }
@@ -70,20 +79,24 @@ public class CraftArrowListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onProjectileHit(ProjectileHitEvent event){
         Projectile projectile = event.getEntity();
-        if(projectile instanceof Arrow && projectile.hasMetadata(MetadataTags.ArrowVariant)){
-            Entity entity = event.getHitEntity();
-            Block block = event.getHitBlock();
+        if(projectile instanceof Arrow){
+            if(projectile.hasMetadata(MetadataTags.ArrowVariant)) {
+                Entity entity = event.getHitEntity();
+                Block block = event.getHitBlock();
 
-            ArrowVariant variant = projectile.getMetadata(MetadataTags.ArrowVariant) != null ? (ArrowVariant) projectile.getMetadata(MetadataTags.ArrowVariant).get(0).value() : null;
+                ArrowVariant variant = projectile.getMetadata(MetadataTags.ArrowVariant) != null ? (ArrowVariant) projectile.getMetadata(MetadataTags.ArrowVariant).get(0).value() : null;
 
-            if(variant != null){
-                if(entity != null)
-                    variant.onEntityHit(event);
-                else if(block != null)
-                    variant.onBlockHit(event);
+                if (variant != null) {
+                    if (entity != null)
+                        variant.onEntityHit(event);
+                    else if (block != null)
+                        variant.onBlockHit(event);
+                }
+                projectile.remove();
             }
+            else if(projectile.hasMetadata("LCA.Remove"))
+                projectile.remove();
         }
-        projectile.remove();
     }
 
     @EventHandler(ignoreCancelled = true)

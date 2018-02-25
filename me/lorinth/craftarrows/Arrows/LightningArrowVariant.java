@@ -4,6 +4,7 @@ import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,7 +26,7 @@ public class LightningArrowVariant extends ArrowVariant{
     @Override
     protected void loadDetails(FileConfiguration config) {
         ArrayList<ConfigValue> configValues = getConfigValues();
-        count = (int) configValues.get(0).getValue(config);
+        count = Convert.Convert(Integer.class, configValues.get(0).getValue(config));
     }
 
     @Override

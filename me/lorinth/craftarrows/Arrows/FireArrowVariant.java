@@ -4,6 +4,7 @@ import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,8 +33,7 @@ public class FireArrowVariant extends ArrowVariant{
     protected void loadDetails(FileConfiguration config) {
         ArrayList<ConfigValue> configValues = getConfigValues();
         burnBlocks = (boolean) configValues.get(0).getValue(config);
-        if(configValues.size() > 1 && configValues.get(1) != null && configValues.get(1).getValue(config) != null)
-            duration = (int) configValues.get(1).getValue(config);
+        duration = Convert.Convert(Integer.class, configValues.get(1).getValue(config));
     }
 
     @Override

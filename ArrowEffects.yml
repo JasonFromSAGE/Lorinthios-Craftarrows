@@ -466,6 +466,8 @@ Recipes:
     Name: Ice Arrow
     Desc: Turn water to ice!
     Amount: 1
+    CleanUpIce: true
+    CleanUpIceDelay: 600
     ShapeChars:
     - A
     - B
@@ -501,3 +503,88 @@ Recipes:
     Shape-1: DAD
     Shape-2: DBD
     Shape-3: DCD
+  Sniper:
+    Enabled: true
+    Name: Sniper Arrow
+    Desc: Arrow flies true and fast
+    VelocityMultiplier: 2.0 # Travels 2x faster than normal arrows
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    CharMats:
+    - ARROW
+    - SULPHUR
+    - AIR
+    Shape-1: CCC
+    Shape-2: CAC
+    Shape-3: BBB
+  Homing:
+    Enabled: true
+    Name: Homing Arrow
+    Desc: Arrow homes in on enemies
+    Velocity: 1.0 #How fast should the homing arrow move?
+    Damage: 5.0
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    CharMats:
+    - SHULKER_SHELL
+    - ARROW
+    - AIR
+    Shape-1: CAC
+    Shape-2: CBC
+    Shape-3: CCC
+  Cooling:
+    Enabled: true
+    Name: Cooling Arrow
+    Desc: Turn lava to obsidian!
+    Amount: 1
+    CleanUp: true
+    CleanUpDelay: 600
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - SNOW_BALL
+    - STICK
+    - FEATHER
+    - AIR
+    Shape-1: AAA
+    Shape-2: DBD
+    Shape-3: DCD
+  Multishot:
+    Enabled: true
+    Name: Multishot Arrow
+    Desc: Fire multiple arrows
+    Amount: 1
+    ArrowCount: 3
+    DelayBetweenShots: 4
+    ShapeChars:
+    - A
+    - B
+    CharMats:
+    - ARROW
+    - AIR
+    Shape-1: BAB
+    Shape-2: BAB
+    Shape-3: BAB
+  Volley:
+    Enabled: true
+    Name: Volley Arrow
+    Desc: Rain hell on your enemies!
+    Amount: 1
+    ArrowCount: 9
+    ArrowSpread: 12
+    ShapeChars:
+    - A
+    CharMats:
+    - ARROW
+    Shape-1: AAA
+    Shape-2: AAA
+    Shape-3: AAA

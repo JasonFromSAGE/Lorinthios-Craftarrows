@@ -8,16 +8,18 @@ import me.lorinth.craftarrows.Objects.*;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.HashMap;
+import java.util.Set;
 
 public class LorinthsCraftArrows extends JavaPlugin {
 
@@ -39,12 +41,24 @@ public class LorinthsCraftArrows extends JavaPlugin {
 
         firstRun();
         loadConfig();
+        checkForNewArrows();
         loadArrows();
         loadArrowDropData();
+        checkAutoUpdates();
         Bukkit.getPluginManager().registerEvents(new CraftArrowListener(), this);
         Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
+    }
 
-        checkAutoUpdates();
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+        if(commandLabel.equalsIgnoreCase("lca")){
+            if(args.length > 0){
+                if(args[0].equalsIgnoreCase("reload")){
+                    onEnable();
+                }
+            }
+        }
+        return true;
     }
 
     private void loadConfig(){
@@ -126,6 +140,37 @@ public class LorinthsCraftArrows extends JavaPlugin {
         );
     }
 
+    private void checkForNewArrows(){
+        File file = new File(getDataFolder(), "ArrowEffects.yml");
+        if(file.exists()){
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "ArrowEffects.yml"));
+            FileConfiguration data = YamlConfiguration.loadConfiguration(getTextResource("ArrowEffects.yml"));
+
+            Set<String> currentRecipes = config.getConfigurationSection("Recipes").getKeys(false);
+            Set<String> updatedRecipes = data.getConfigurationSection("Recipes").getKeys(false);
+            for(String key : updatedRecipes){
+                if(!currentRecipes.contains(key)){
+                    setConfigValues(data, config, "Recipes." + key);
+                }
+            }
+
+            config.setDefaults(data);
+            try{
+                config.save(file);
+            }
+            catch(Exception exception){
+                OutputHandler.PrintException("Error while updating config with new arrows", exception);
+            }
+        }
+    }
+
+    private void setConfigValues(FileConfiguration from, FileConfiguration to, String keyPath){
+        for(String key : from.getConfigurationSection(keyPath).getKeys(true)){
+            if(from.get(keyPath + "." + key) != null)
+                to.set(keyPath + "." + key, from.get(keyPath + "." + key));
+        }
+    }
+
     private void loadArrows(){
         File arrowFile = new File(getDataFolder(), "ArrowEffects.yml");
         File skeletonFile = new File(getDataFolder(), "SkeletonArrows.yml");
@@ -135,13 +180,16 @@ public class LorinthsCraftArrows extends JavaPlugin {
         addVariant(new PotionArrowVariant(config, ArrowNames.Blinding, PotionEffectType.BLINDNESS));
         addVariant(new BloodArrowVariant(config));
         addVariant(new PotionArrowVariant(config, ArrowNames.Confusion, PotionEffectType.CONFUSION));
+        addVariant(new CoolingArrowVariant(config));
         addVariant(new PotionArrowVariant(config, ArrowNames.Crippling, PotionEffectType.SLOW));
         addVariant(new ExplosiveArrowVariant(config));
         addVariant(new FireArrowVariant(config));
         addVariant(new ForcefieldArrowVariant(config));
+        addVariant(new HomingArrowVariant(config));
         addVariant(new IceArrowVariant(config));
         addVariant(new LightningArrowVariant(config));
         addVariant(new MedicArrowVariant(config));
+        addVariant(new MultishotArrowVariant(config));
         addVariant(new NetArrowVariant(config));
         addVariant(new PiercingArrowVariant(config));
         addVariant(new PotionArrowVariant(config, ArrowNames.Poison, PotionEffectType.POISON));
@@ -149,11 +197,13 @@ public class LorinthsCraftArrows extends JavaPlugin {
         addVariant(new PushArrowVariant(config));
         addVariant(new RazorArrowVariant(config));
         addVariant(new ShuffleArrowVariant(config));
+        addVariant(new SniperArrowVariant(config));
         addVariant(new SoundArrowVariant(config));
         addVariant(new TeleportArrowVariant(config));
         addVariant(new TntArrowVariant(config));
         addVariant(new TorchArrowVariant(config));
         addVariant(new VortexArrowVariant(config));
+        addVariant(new VolleyArrowVariant(config));
         addVariant(new WaterArrowVariant(config));
         addVariant(new PotionArrowVariant(config, ArrowNames.Weakness, PotionEffectType.WEAKNESS));
         addVariant(new WitherArrowVariant(config));

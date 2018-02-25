@@ -2,6 +2,7 @@ package me.lorinth.craftarrows.Arrows;
 
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -37,8 +38,8 @@ public class PotionArrowVariant extends ArrowVariant{
     @Override
     protected void loadDetails(FileConfiguration config) {
         ArrayList<ConfigValue> configValues = getConfigValues();
-        potionLevel = (int) configValues.get(0).getValue(config);
-        duration = (int) configValues.get(1).getValue(config);
+        potionLevel = Convert.Convert(Integer.class, configValues.get(0).getValue(config));
+        duration = Convert.Convert(Integer.class, configValues.get(1).getValue(config));
     }
 
     @Override

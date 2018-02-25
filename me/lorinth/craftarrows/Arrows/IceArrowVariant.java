@@ -3,6 +3,8 @@ package me.lorinth.craftarrows.Arrows;
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
+import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,17 +15,26 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class IceArrowVariant extends ArrowVariant{
 
+    private boolean cleanUp;
+    private int delay;
+
     public IceArrowVariant(FileConfiguration config){
-        super(config, ConfigPaths.Recipes + ".", ArrowNames.Ice);
+        super(config, ConfigPaths.Recipes + ".", ArrowNames.Ice, new ArrayList<ConfigValue>(){{
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Ice + ".CleanUpIce", true));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Ice + ".CleanUpIceDelay", 600));
+        }});
     }
 
     @Override
     protected void loadDetails(FileConfiguration config) {
-
+        ArrayList<ConfigValue> configValues = getConfigValues();
+        cleanUp = (boolean) configValues.get(0).getValue(config);
+        delay = Convert.Convert(Integer.class, configValues.get(1).getValue(config));
     }
 
     @Override
@@ -73,10 +84,13 @@ public class IceArrowVariant extends ArrowVariant{
             }
         }
 
-        Bukkit.getScheduler().runTaskLater(LorinthsCraftArrows.instance, () -> {
-            for(Block changedBlock : changed.keySet()){
-                changedBlock.setType(changed.get(changedBlock));
-            }
-        }, 20 * 30);
+        if(cleanUp){
+            Bukkit.getScheduler().runTaskLater(LorinthsCraftArrows.instance, () -> {
+                for(Block changedBlock : changed.keySet()){
+                    changedBlock.setType(changed.get(changedBlock));
+                }
+            }, delay);
+        }
+
     }
 }

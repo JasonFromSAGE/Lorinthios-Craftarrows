@@ -10,21 +10,23 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Arrow;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class NetArrowVariant extends ArrowVariant{
+public class CoolingArrowVariant extends ArrowVariant{
 
     private boolean cleanUp;
     private int delay;
 
-    public NetArrowVariant(FileConfiguration config){
-        super(config, ConfigPaths.Recipes + ".", ArrowNames.Net, new ArrayList<ConfigValue>(){{
-            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Net + ".CleanUpWebs", 100));
-            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Net + ".CleanUpWebsDelay", true));
+    public CoolingArrowVariant(FileConfiguration config){
+        super(config, ConfigPaths.Recipes + ".", ArrowNames.Cooling, new ArrayList<ConfigValue>(){{
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Cooling + ".CleanUp", true));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Cooling + ".CleanUpDelay", 600));
         }});
     }
 
@@ -37,29 +39,46 @@ public class NetArrowVariant extends ArrowVariant{
 
     @Override
     public void onShoot(EntityShootBowEvent event) {
+        final Arrow arrow = (Arrow) event.getProjectile();
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                Location location = arrow.getLocation();
+                Block block = location.getBlock();
+                Material material = block.getType();
+                if (material == Material.LAVA || material == Material.STATIONARY_LAVA) {
+                    arrow.remove();
+                    cool(location);
+                    cancel();
+                    return;
+                }
+            }
 
+            ;
+        };
+        runnable.runTaskTimer(LorinthsCraftArrows.instance, 1, 1);
     }
 
     @Override
     public void onEntityHit(ProjectileHitEvent event) {
-        net(event.getHitEntity().getLocation());
+
     }
 
     @Override
     public void onBlockHit(ProjectileHitEvent event) {
-        net(event.getHitBlock().getLocation());
+
     }
 
-    private void net(Location location){
+    private void cool(Location location){
         HashMap<Block, Material> changed = new HashMap<>();
         Block block = location.getBlock();
         for(int x=-1; x<=1; x++){
-            for(int y=-1; y<=1; y++){
+            for(int y=-1; y<=2; y++){
                 for(int z=-1; z<=1; z++){
                     Block relative = block.getRelative(x, y, z);
-                    if(relative.getType() == Material.AIR && relative.getRelative(0, -1, 0).getType() != Material.AIR){
+                    if(relative.getType() == Material.LAVA || relative.getType() == Material.STATIONARY_LAVA){
                         changed.put(relative, relative.getType());
-                        relative.setType(Material.WEB);
+                        relative.setType(Material.OBSIDIAN);
                     }
                 }
             }

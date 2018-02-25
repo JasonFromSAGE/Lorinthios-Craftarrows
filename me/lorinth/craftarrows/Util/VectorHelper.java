@@ -23,4 +23,5 @@ public class VectorHelper {
     public static Vector getDirectionVector(Location from, Location to, double force){
         return getNormalizedVector(from, to).multiply(force);
     }
+
 }

@@ -1,4 +1,8 @@
 name: LorinthsCraftArrows
-version: 1.0.0
+version: 1.1
 description: Lorinths updated version of CraftArrows
 main: me.lorinth.craftarrows.LorinthsCraftArrows
+commands:
+  lca:
+    description: Access to LorinthsCraftArrows Commands
+    permission: lca.admin

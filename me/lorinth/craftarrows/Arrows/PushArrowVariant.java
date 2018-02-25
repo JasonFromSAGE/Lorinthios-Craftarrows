@@ -3,6 +3,7 @@ package me.lorinth.craftarrows.Arrows;
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import me.lorinth.craftarrows.Util.VectorHelper;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -26,16 +27,7 @@ public class PushArrowVariant extends ArrowVariant{
     @Override
     protected void loadDetails(FileConfiguration config) {
         ArrayList<ConfigValue> configValues = getConfigValues();
-        Object value = configValues.get(0).getValue(config);
-        if(value instanceof Integer){
-            pushAmount = (double) (int) value;
-        }
-        else if(value instanceof Double){
-            pushAmount = (double) value;
-        }
-        else if(value instanceof Float){
-            pushAmount = (double) (float) value;
-        }
+        pushAmount = Convert.Convert(Double.class, configValues.get(0).getValue(config));
     }
 
     @Override

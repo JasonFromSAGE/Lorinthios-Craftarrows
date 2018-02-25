@@ -3,6 +3,7 @@ package me.lorinth.craftarrows.Arrows;
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -27,20 +28,9 @@ public class ExplosiveArrowVariant extends ArrowVariant{
     @Override
     protected void loadDetails(FileConfiguration config) {
         ArrayList<ConfigValue> configValues = getConfigValues();
-        Object value1 = configValues.get(0).getValue(config);;
-        if(value1 instanceof Integer){
-            power = (float) (int) value1;
-        }
-        else if(value1 instanceof Double){
-            power = (float) (double) value1;
-        }
-        else if(value1 instanceof Float){
-            power = (float) value1;
-        }
-
+        power = Convert.Convert(Float.class, configValues.get(0).getValue(config));
         breakBlocks = (boolean) configValues.get(1).getValue(config);
-        if(configValues.size() > 2 && configValues.get(2) != null && configValues.get(2).getValue(config) != null)
-            setFire = (boolean) configValues.get(2).getValue(config);
+        setFire = (boolean) configValues.get(2).getValue(config);
     }
 
     @Override
