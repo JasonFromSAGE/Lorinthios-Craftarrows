@@ -1,6 +1,6 @@
 name: LorinthsCraftArrows
-version: 1.1
-description: Lorinths updated version of CraftArrows
+version: 1.2.1
+description: Lorinths updated version of CraftArrows, adds 31 Custom Arrows
 main: me.lorinth.craftarrows.LorinthsCraftArrows
 commands:
   lca:

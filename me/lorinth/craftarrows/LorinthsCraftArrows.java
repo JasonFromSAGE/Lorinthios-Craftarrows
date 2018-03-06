@@ -204,6 +204,7 @@ public class LorinthsCraftArrows extends JavaPlugin {
         addVariant(new TorchArrowVariant(config));
         addVariant(new VortexArrowVariant(config));
         addVariant(new VolleyArrowVariant(config));
+        addVariant(new WallingArrowVariant(config));
         addVariant(new WaterArrowVariant(config));
         addVariant(new PotionArrowVariant(config, ArrowNames.Weakness, PotionEffectType.WEAKNESS));
         addVariant(new WitherArrowVariant(config));

@@ -588,3 +588,33 @@ Recipes:
     Shape-1: AAA
     Shape-2: AAA
     Shape-3: AAA
+  Walling:
+    Enabled: true
+    Name: Walling Arrow
+    Desc: Creates a wall!
+    Amount: 1
+    CleanUp: true
+    CleanUpDelay: 100
+    Blocks:
+    - STONE
+    - DIRT
+    - COBBLESTONE
+    Wall:
+      Width: 5 #left to right
+      Length: 2 #back to front
+      Height: 3 #bottom to top
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    - E
+    CharMats:
+    - STONE
+    - DIRT
+    - COBBLESTONE
+    - ARROW
+    - AIR
+    Shape-1: ABC
+    Shape-2: ABC
+    Shape-3: EDE

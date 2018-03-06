@@ -2,7 +2,6 @@ package me.lorinth.craftarrows.Listener;
 
 import me.lorinth.craftarrows.Arrows.ArrowVariant;
 import me.lorinth.craftarrows.Arrows.CombatArrowVariant;
-import me.lorinth.craftarrows.Arrows.MedicArrowVariant;
 import me.lorinth.craftarrows.Constants.MetadataTags;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
 import org.bukkit.ChatColor;
@@ -11,8 +10,10 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Torch;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
