@@ -551,11 +551,11 @@ Recipes:
     - C
     - D
     CharMats:
-    - SNOW_BALL
+    - SNOW_BLOCK
     - STICK
     - FEATHER
     - AIR
-    Shape-1: AAA
+    Shape-1: DAD
     Shape-2: DBD
     Shape-3: DCD
   Multishot:
