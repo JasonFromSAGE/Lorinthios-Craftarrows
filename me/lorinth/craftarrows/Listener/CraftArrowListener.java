@@ -2,48 +2,56 @@ package me.lorinth.craftarrows.Listener;
 
 import me.lorinth.craftarrows.Arrows.ArrowVariant;
 import me.lorinth.craftarrows.Arrows.CombatArrowVariant;
-import me.lorinth.craftarrows.Constants.MetadataTags;
+import me.lorinth.craftarrows.Data.ArrowManager;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import me.lorinth.craftarrows.Util.NmsHelper;
+import me.lorinth.craftarrows.WorldGuard.NoCraftArrowFlag;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Torch;
-import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static me.lorinth.craftarrows.LorinthsCraftArrows.properties;
+
 public class CraftArrowListener implements Listener {
+
+    public static ArrayList<Entity> ignoredEntities = new ArrayList<>();
+    public static ArrayList<Location> ignoredExplosions = new ArrayList<>();
 
     @EventHandler(ignoreCancelled = true)
     public void onBowShoot(EntityShootBowEvent event){
         if(event.getProjectile() instanceof Arrow){
             Arrow arrow = (Arrow) event.getProjectile();
-
             if(event.getEntity() instanceof Player) {
                 ItemStack arrowItem = getArrowBeingShot((Player) event.getEntity());
                 if(arrowItem != null && arrowItem.hasItemMeta()) {
                     ArrowVariant variant = LorinthsCraftArrows.getArrowVariantForItemName(arrowItem.getItemMeta().getDisplayName().trim());
-                    if(LorinthsCraftArrows.properties.UsePermissions && (!event.getEntity().hasPermission("craftarrow." + variant.getName().toLowerCase()) && !event.getEntity().hasPermission("craftarrow.all"))) {
+                    if(properties.UsePermissions && (!event.getEntity().hasPermission("craftarrow." + variant.getName().toLowerCase()) && !event.getEntity().hasPermission("craftarrow.all"))) {
                         event.getEntity().sendMessage(ChatColor.RED + "[CraftArrows] : You don't have permission to shoot, " + variant.getName() + " arrows");
                         event.setCancelled(true);
                         return;
                     }
                     if(variant != null) {
-                        arrow.setMetadata(MetadataTags.ArrowVariant, new FixedMetadataValue(LorinthsCraftArrows.instance, variant));
+                        ArrowManager.RegisterArrow(arrow, variant);
                         variant.onShoot(event);
+
+                        if(!properties.InfinityBowWorks && ((Player) event.getEntity()).getGameMode() != GameMode.CREATIVE)
+                            if(((Player) event.getEntity()).getInventory().getItemInMainHand().containsEnchantment(Enchantment.ARROW_INFINITE))
+                                arrowItem.setAmount(arrowItem.getAmount() - 1);
                     }
                 }
             }
-            if(event.getEntity() instanceof Skeleton && LorinthsCraftArrows.properties.SkeletonCanShootArrow){
+            else if(properties.SkeletonCanShootArrow){
                 ArrowVariant variant = LorinthsCraftArrows.getRandomArrowVariant();
                 if(variant != null) {
-                    arrow.setMetadata(MetadataTags.ArrowVariant, new FixedMetadataValue(LorinthsCraftArrows.instance, variant));
+                    ArrowManager.RegisterArrow(arrow, variant);
                     variant.onShoot(event);
                 }
             }
@@ -59,21 +67,33 @@ public class CraftArrowListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onProjectileHitEntity(EntityDamageByEntityEvent event){
-        if(event.getDamager() instanceof Arrow) {
-            if (event.getDamager() instanceof Arrow){
-                if(event.getDamager().hasMetadata(MetadataTags.ArrowVariant) && event.getEntity() instanceof LivingEntity)
-                {
-                    LivingEntity entity = (LivingEntity) event.getEntity();
-                    ArrowVariant variant = event.getDamager().getMetadata(MetadataTags.ArrowVariant) != null ? (ArrowVariant) event.getDamager().getMetadata(MetadataTags.ArrowVariant).get(0).value() : null;
-                    if (variant instanceof CombatArrowVariant) {
-                        ((CombatArrowVariant) variant).onEntityHit(event, (Projectile) event.getDamager(), entity);
-                        event.getDamager().remove();
+        if (event.getDamager() instanceof Arrow){
+            Entity arrow = event.getDamager();
+            ArrowVariant variant = ArrowManager.GetVariant(arrow);
+            if(variant != null){
+                LivingEntity entity = (LivingEntity) event.getEntity();
+
+                if(ignoredEntities.contains(entity)) {
+                    event.setCancelled(true);
+                    return;
+                }
+
+                if(NmsHelper.getSimpleVersion() <= 12){
+                    if(LorinthsCraftArrows.WorldGuardEnabled) {
+                        if (NoCraftArrowFlag.Enabled && NoCraftArrowFlag.IsProtectedRegion(entity.getLocation())) {
+                            return;
+                        }
                     }
                 }
-                if(event.getDamager().hasMetadata("LCA.Damage"))
-                    event.setDamage(event.getDamager().getMetadata("LCA.Damage").get(0).asDouble());
 
+                if (variant instanceof CombatArrowVariant) {
+                    ((CombatArrowVariant) variant).onEntityHit(event, (Projectile) event.getDamager(), entity);
+                    event.getDamager().remove();
+                }
             }
+            Double damage = ArrowManager.GetDamage(arrow);
+            if(damage != null)
+                event.setDamage(damage);
         }
     }
 
@@ -81,28 +101,53 @@ public class CraftArrowListener implements Listener {
     public void onProjectileHit(ProjectileHitEvent event){
         Projectile projectile = event.getEntity();
         if(projectile instanceof Arrow){
-            if(projectile.hasMetadata(MetadataTags.ArrowVariant)) {
+            Arrow arrow = (Arrow) event.getEntity();
+            ArrowVariant variant = ArrowManager.GetVariant(arrow);
+            if(variant != null) {
                 Entity entity = event.getHitEntity();
                 Block block = event.getHitBlock();
+                if(block == null)
+                    block = event.getEntity().getLocation().getBlock();
 
-                ArrowVariant variant = projectile.getMetadata(MetadataTags.ArrowVariant) != null ? (ArrowVariant) projectile.getMetadata(MetadataTags.ArrowVariant).get(0).value() : null;
-
-                if (variant != null) {
-                    if (entity != null)
-                        variant.onEntityHit(event);
-                    else if (block != null)
-                        variant.onBlockHit(event);
+                if(ignoredEntities.contains(entity)) {
+                    return;
                 }
-                projectile.remove();
+
+                if(NmsHelper.getSimpleVersion() <= 12){
+                    if(LorinthsCraftArrows.WorldGuardEnabled) {
+                        if (NoCraftArrowFlag.Enabled && NoCraftArrowFlag.IsProtectedRegion(arrow.getLocation())) {
+                            return;
+                        }
+                    }
+                }
+
+                if (entity != null)
+                    variant.onEntityHit(event);
+                else if (block != null)
+                    variant.onBlockHit(event);
             }
-            else if(projectile.hasMetadata("LCA.Remove"))
-                projectile.remove();
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onExplosionDamage(EntityDamageEvent event){
+        if(event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION ||
+                event.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION){
+            if(ignoredEntities.contains(event.getEntity())) {
+                Location entityLocation = event.getEntity().getLocation();
+                for(Location loc : ignoredExplosions){
+                    if(loc.distanceSquared(entityLocation) < 25){
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+            }
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onSkeletonDeath(EntityDeathEvent event){
-        if(event.getEntity() instanceof Skeleton && LorinthsCraftArrows.properties.SkeletonsDropArrows){
+        if(event.getEntity() instanceof Skeleton && properties.SkeletonsDropArrows){
             List<ItemStack> drops = event.getDrops();
             for(int i=0; i<drops.size(); i++){
                 ItemStack item = drops.get(i);
@@ -122,5 +167,4 @@ public class CraftArrowListener implements Listener {
             }
         }
     }
-
 }

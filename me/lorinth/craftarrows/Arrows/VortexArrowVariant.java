@@ -2,6 +2,7 @@ package me.lorinth.craftarrows.Arrows;
 
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
+import me.lorinth.craftarrows.Listener.CraftArrowListener;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Util.VectorHelper;
 import org.bukkit.Bukkit;
@@ -53,10 +54,11 @@ public class VortexArrowVariant extends ArrowVariant{
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                for(Entity entity : event.getEntity().getNearbyEntities(5, 5, 5)){
-                    if(entity != projectile)
-                        entity.setVelocity(VectorHelper.getVectorBetween(entity.getLocation(), projectile.getLocation(), 0, 0.5));
-                }
+            for(Entity entity : event.getEntity().getNearbyEntities(5, 5, 5)){
+
+                if(entity != projectile && !CraftArrowListener.ignoredEntities.contains(entity))
+                    entity.setVelocity(VectorHelper.getVectorBetween(entity.getLocation(), projectile.getLocation(), 0, 0.5));
+            }
             }
         };
         BukkitTask task = runnable.runTaskTimer(LorinthsCraftArrows.instance, 2, 2);

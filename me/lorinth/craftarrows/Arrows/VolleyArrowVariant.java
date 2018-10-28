@@ -38,7 +38,7 @@ public class VolleyArrowVariant extends ArrowVariant{
     @Override
     public void onShoot(EntityShootBowEvent event) {
         spreadShot(event.getEntity(), event.getProjectile(), event.getForce() * 2);
-        event.getProjectile().remove();
+        //event.getProjectile().remove();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class VolleyArrowVariant extends ArrowVariant{
 
         Location location = projectile.getLocation().add(direction.normalize());
 
-        for(int i=0; i<arrowCount; i++){
+        for(int i=0; i<arrowCount-1; i++){
             Arrow arrow = shooter.getWorld().spawnArrow(location, projectile.getVelocity(), force, spread);
             if(shooter instanceof ProjectileSource)
                 arrow.setShooter((ProjectileSource) shooter);

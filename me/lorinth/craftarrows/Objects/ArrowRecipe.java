@@ -127,7 +127,27 @@ public class ArrowRecipe {
                 recipe.setIngredient(cha, recipeMaterials.get(cha));
         }
 
-        Bukkit.getServer().addRecipe(recipe);
+        LorinthsCraftArrows.AddRecipe(recipe);
+    }
+
+    public ItemStack[][] getRecipeMaterials(){
+        ItemStack[][] recipeMaterialArray = new ItemStack[3][3];
+        recipeMaterialArray[0] = convertLineToItemStacks(recipe1);
+        recipeMaterialArray[1] = convertLineToItemStacks(recipe2);
+        recipeMaterialArray[2] = convertLineToItemStacks(recipe3);
+        return recipeMaterialArray;
+    }
+
+    private ItemStack[] convertLineToItemStacks(String line){
+        ItemStack[] newLine = new ItemStack[3];
+        for(int i=0; i<3; i++){
+            char c = line.charAt(i);
+            if(recipeData.containsKey(c))
+                newLine[i] = new ItemStack(recipeMaterials.get(c), 1, (short) 0, recipeData.get(c));
+            else
+                newLine[i] = new ItemStack(recipeMaterials.get(c));
+        }
+        return newLine;
     }
 
 }

@@ -1,10 +1,8 @@
 package me.lorinth.craftarrows.Util;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-
 /**
- * Created by bnra2 on 3/3/2018.
+ * Created by lorinthio on 3/3/2018.
  */
 public class DirectionHelper {
 
@@ -19,6 +17,7 @@ public class DirectionHelper {
      * @return
      */
     public static Direction getCardinalDirection(LivingEntity entity) {
+
         double rot = (entity.getLocation().getYaw() - 90) % 360;
         if (rot < 0) {
             rot += 360.0;

@@ -2,6 +2,7 @@ package me.lorinth.craftarrows.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
@@ -43,27 +44,27 @@ public class OutputHandler {
 
     public static void PrintRawError(String message){ console.sendMessage(ERROR + message); }
 
-    public static void PrintInfo(Player player, String message){
+    public static void PrintInfo(CommandSender player, String message){
         player.sendMessage(infoPrefix + message);
     }
 
-    public static void PrintError(Player player, String message){
+    public static void PrintError(CommandSender player, String message){
         player.sendMessage(errorPrefix + message);
     }
 
-    public static void PrintRawInfo(Player player, String message){
+    public static void PrintRawInfo(CommandSender player, String message){
         player.sendMessage(INFO + message);
     }
 
-    public static void PrintRawError(Player player, String message){
+    public static void PrintRawError(CommandSender player, String message){
         player.sendMessage(ERROR + message);
     }
 
-    public static void PrintCommandInfo(Player player, String message){
+    public static void PrintCommandInfo(CommandSender player, String message){
         player.sendMessage(COMMAND + message);
     }
 
-    public static void PrintWhiteSpace(Player player, int lines){
+    public static void PrintWhiteSpace(CommandSender player, int lines){
         for(int i=0; i<lines; i++)
             player.sendMessage("");
     }

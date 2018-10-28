@@ -33,16 +33,16 @@ public class WallingArrowVariant extends ArrowVariant{
 
     public WallingArrowVariant(FileConfiguration config){
         super(config, ConfigPaths.Recipes + ".", ArrowNames.Walling, new ArrayList<ConfigValue>(){{
-            add(new ConfigValue<Boolean>(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".CleanUp", true));
-            add(new ConfigValue<Integer>(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".CleanUpDelay", 100));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".CleanUp", true));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".CleanUpDelay", 100));
             add(new ConfigValue<List<String>>(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Blocks", new ArrayList<String>(){{
                 add("DIRT");
                 add("STONE");
                 add("COBBLESTONE");
             }}));
-            add(new ConfigValue<Integer>(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Wall.Width", 5));
-            add(new ConfigValue<Integer>(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Wall.Length", 2));
-            add(new ConfigValue<Integer>(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Wall.Height", 3));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Wall.Width", 5));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Wall.Length", 2));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.Walling + ".Wall.Height", 3));
         }});
     }
 

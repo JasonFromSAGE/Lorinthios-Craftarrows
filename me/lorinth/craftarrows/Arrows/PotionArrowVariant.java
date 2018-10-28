@@ -18,21 +18,26 @@ public class PotionArrowVariant extends ArrowVariant{
     protected int duration;
     protected PotionEffectType type;
 
+    protected PotionEffect potionEffect;
+
     public PotionArrowVariant(FileConfiguration config, String name, PotionEffectType type){
         super(config, ConfigPaths.Recipes + ".", name, new ArrayList<ConfigValue>(){{
             add(new ConfigValue(ConfigPaths.Recipes + "." + name + ".Power", 0));
             add(new ConfigValue(ConfigPaths.Recipes + "." + name + ".Duration", 60));
         }});
         this.type = type;
+        potionEffect = new PotionEffect(type, duration, potionLevel);
     }
 
-    public PotionArrowVariant(FileConfiguration config, String name, PotionEffectType type, ArrayList<ConfigValue> configValues){
+    public PotionArrowVariant(FileConfiguration config, String name, PotionEffectType type, ConfigValue... configValues){
         super(config, ConfigPaths.Recipes + ".", name, new ArrayList<ConfigValue>(){{
             add(new ConfigValue(ConfigPaths.Recipes + "." + name + ".Power", 0));
             add(new ConfigValue(ConfigPaths.Recipes + "." + name + ".Duration", 60));
-            addAll(configValues);
+            for(ConfigValue configValue : configValues)
+                add(configValue);
         }});
         this.type = type;
+        potionEffect = new PotionEffect(type, duration, potionLevel);
     }
 
     @Override

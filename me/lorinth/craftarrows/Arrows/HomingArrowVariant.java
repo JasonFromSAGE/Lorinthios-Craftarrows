@@ -2,15 +2,14 @@ package me.lorinth.craftarrows.Arrows;
 
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
+import me.lorinth.craftarrows.Constants.MetadataTags;
+import me.lorinth.craftarrows.Data.ArrowManager;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Objects.ConfigValue;
 import me.lorinth.craftarrows.Util.Convert;
 import me.lorinth.craftarrows.Util.VectorHelper;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -74,16 +73,23 @@ public class HomingArrowVariant extends CombatArrowVariant{
 
         private Entity target;
         private double targetVelocity;
-        private double currentVelocity = 2.0;
+        private double currentVelocity = 1.0;
+        private double heightDifference = 1.0;
         private Arrow arrow;
 
         public HomingArrowRunnable(LivingEntity entity, double velocity, double damage){
             this.targetVelocity = velocity;
+            if(currentVelocity < targetVelocity)
+                currentVelocity = targetVelocity;
 
             arrow = entity.launchProjectile(Arrow.class);
-            arrow.setMetadata("LCA.Remove", new FixedMetadataValue(LorinthsCraftArrows.instance, true));
-            arrow.setMetadata("LCA.Damage", new FixedMetadataValue(LorinthsCraftArrows.instance, damage));
+            arrow.setMetadata(MetadataTags.Remove, new FixedMetadataValue(LorinthsCraftArrows.instance, true));
             arrow.setGravity(false);
+
+            ArrowManager.RegisterDamage(arrow, damage);
+
+            heightDifference = getHeightDifference();
+            arrow.setVelocity(arrow.getVelocity().normalize().multiply(currentVelocity));
         }
 
         @Override
@@ -94,14 +100,30 @@ public class HomingArrowVariant extends CombatArrowVariant{
                 else if(currentVelocity > targetVelocity)
                     currentVelocity -= 0.1;
 
-                if(target != null)
-                    arrow.setVelocity(VectorHelper.getDirectionVector(arrow.getLocation(), target.getLocation().add(0, 1.0, 0), currentVelocity));
+                if(target != null){
+                    if(target.isValid())
+                        arrow.setVelocity(VectorHelper.getDirectionVector(arrow.getLocation(), target.getLocation().add(0, 1.0, 0), currentVelocity));
+                    else {
+                        arrow.setGravity(true);
+                        this.cancel();
+                    }
+                }
+
                 else
                     arrow.setVelocity(arrow.getVelocity().normalize().multiply(currentVelocity));
             }
             else{
                 cancel();
             }
+        }
+
+        private double getHeightDifference(){
+            if(target instanceof CaveSpider || target instanceof Spider)
+                return 0.5;
+            if(target instanceof Player)
+                return 1.5;
+            else
+                return 1.0;
         }
 
         public void setTarget(Entity entity){

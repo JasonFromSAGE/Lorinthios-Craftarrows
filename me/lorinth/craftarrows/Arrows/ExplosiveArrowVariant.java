@@ -2,10 +2,15 @@ package me.lorinth.craftarrows.Arrows;
 
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
+import me.lorinth.craftarrows.Listener.CraftArrowListener;
+import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Objects.ConfigValue;
 import me.lorinth.craftarrows.Util.Convert;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
@@ -40,7 +45,15 @@ public class ExplosiveArrowVariant extends ArrowVariant{
 
     @Override
     public void onEntityHit(ProjectileHitEvent event) {
-        explode(event.getEntity().getLocation());
+        Entity entity = event.getHitEntity();
+        if(entity instanceof LivingEntity){
+            Bukkit.getScheduler().runTaskLater(LorinthsCraftArrows.instance, () -> {
+                ((LivingEntity) entity).setNoDamageTicks(15);
+                explode(event.getEntity().getLocation());
+            }, 1);
+        }
+        else
+            explode(event.getEntity().getLocation());
     }
 
     @Override
@@ -49,7 +62,12 @@ public class ExplosiveArrowVariant extends ArrowVariant{
     }
 
     private void explode(Location location){
+        CraftArrowListener.ignoredExplosions.add(location);
         location.getWorld().createExplosion(location.getBlockX(), location.getBlockY(), location.getBlockZ(), power, setFire, breakBlocks);
+
+        Bukkit.getScheduler().runTaskLater(LorinthsCraftArrows.instance, () -> {
+            CraftArrowListener.ignoredExplosions.remove(location);
+        }, 3);
     }
 
 }
