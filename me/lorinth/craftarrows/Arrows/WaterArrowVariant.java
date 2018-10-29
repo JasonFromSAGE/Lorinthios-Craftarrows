@@ -40,15 +40,15 @@ public class WaterArrowVariant extends ArrowVariant{
 
     @Override
     public void onEntityHit(ProjectileHitEvent event) {
-        setWater(event.getHitEntity().getLocation().getBlock());
+        PlayersetWater(event.getHitEntity().getLocation().getBlock());
     }
 
     @Override
     public void onBlockHit(ProjectileHitEvent event) {
-        setWater(event.getHitBlock());
+        PlayersetWater(event.getHitBlock());
     }
 
-    private void setWater(Block block){
+    private void PlayersetWater(Block block){
         while(block.getType() != Material.AIR){
             block = block.getRelative(0, 1, 0);
         }
