@@ -10,7 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
@@ -63,8 +65,9 @@ public class ExplosiveArrowVariant extends ArrowVariant{
 
     private void explode(Location location){
         CraftArrowListener.ignoredExplosions.add(location);
-        location.getWorld().createExplosion(location.getBlockX(), location.getBlockY(), location.getBlockZ(), power, setFire, breakBlocks);
-
+        //location.getWorld().createExplosion(location.getBlockX(), location.getBlockY(), location.getBlockZ(), power, setFire, breakBlocks);
+        TNTPrimed tnt = (TNTPrimed) location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
+        tnt.setFuseTicks(1);
         Bukkit.getScheduler().runTaskLater(LorinthsCraftArrows.instance, () -> {
             CraftArrowListener.ignoredExplosions.remove(location);
         }, 3);
