@@ -4,7 +4,6 @@ ShootChance:
   Crippling: 5
   Blinding: 3
   Weakness: 4
-  Tnt: 1
   Shuffle: 2
   Lightning: 2
   Confusion:  3
@@ -26,7 +25,6 @@ DropChance:
   Shuffle: 10
   Lightning:  10
   Confusion: 10
-  Tnt: 10
   Poison: 10
   Fire: 10
   Pull: 10
