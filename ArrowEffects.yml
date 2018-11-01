@@ -623,6 +623,31 @@ Recipes:
     Shape-1: DCD
     Shape-2: DBD
     Shape-3: DAD
+  TrickOrTreat:
+    Enabled: true
+    Name: Trick or Treat Arrow
+    Desc: Heal your targets health and hunger or remove it!
+    Amount: 1
+    Trick:
+      Chance: 30.0
+      Damage: 6.0
+      Hunger: -6
+    Treat:
+      Health: 4.0
+      Hunger: 4
+    ShapeChars:
+    - A
+    - B
+    - C
+    - D
+    CharMats:
+    - PUMPKIN
+    - STICK
+    - FEATHER
+    - AIR
+      Shape-1: DAD
+      Shape-2: DBD
+      Shape-3: DCD
   Torch:
     Enabled: true
     Name: Torch Arrow
