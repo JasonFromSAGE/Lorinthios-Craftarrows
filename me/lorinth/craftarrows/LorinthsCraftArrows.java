@@ -9,6 +9,7 @@ import me.lorinth.craftarrows.Listener.UpdaterEventListener;
 import me.lorinth.craftarrows.Npc.NoCraftArrowTrait;
 import me.lorinth.craftarrows.Objects.*;
 import me.lorinth.craftarrows.Objects.Properties;
+import me.lorinth.craftarrows.Util.NmsHelper;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import me.lorinth.craftarrows.WorldGuard.NoCraftArrowFlag;
 import org.bukkit.Bukkit;
@@ -47,6 +48,12 @@ public class LorinthsCraftArrows extends JavaPlugin {
 
     @Override
     public void onEnable(){
+        int version = NmsHelper.getSimpleVersion();
+        if(version > 12){
+            OutputHandler.PrintError("You are running a version greater than 1.12. Please download the 1.13 version");
+            return;
+        }
+
         startup(true);
     }
 
@@ -63,9 +70,9 @@ public class LorinthsCraftArrows extends JavaPlugin {
         checkForNewArrows();
         loadArrows();
         loadArrowDropData();
-        checkAutoUpdates();
+        //checkAutoUpdates();
         Bukkit.getPluginManager().registerEvents(new CraftArrowListener(), this);
-        Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
+        //Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
 
         ArrowRecipeMenu.load();
 

@@ -20,52 +20,31 @@ public class NoCraftArrowFlag {
         OutputHandler.PrintInfo("Registering Custom Flag 'no-craft-arrows'");
         int version = NmsHelper.getSimpleVersion();
         OutputHandler.PrintInfo("NMS Version : " + version);
-        if(version <= 12){
-            try {
-                // register our flag with the registry
-                FlagRegistry registry = com.sk89q.worldguard.bukkit.WorldGuardPlugin.inst().getFlagRegistry();
-                registry.register(No_Craft_Arrows);
-                Enabled = true;
-                OutputHandler.PrintInfo("no-craft-arrows flag added to World Guard!");
+        try {
+            // register our flag with the registry
+            FlagRegistry registry = com.sk89q.worldguard.bukkit.WorldGuardPlugin.inst().getFlagRegistry();
+            registry.register(No_Craft_Arrows);
+            Enabled = true;
+            OutputHandler.PrintInfo("no-craft-arrows flag added to World Guard!");
 
-            } catch (FlagConflictException e) {
-                OutputHandler.PrintException("Error hooking into World Guard", e);
-                Enabled = false;
-            }
-        }
-        else{
-            try{
-                FlagRegistry registry = com.sk89q.worldguard.WorldGuard.getInstance().getFlagRegistry();
-                registry.register(No_Craft_Arrows);
-                Enabled = true;
-                OutputHandler.PrintInfo("no-craft-arrows flag added to World Guard!");
-            } catch (FlagConflictException e) {
-                OutputHandler.PrintException("Error hooking into World Guard", e);
-                Enabled = false;
-            }
+        } catch (FlagConflictException e) {
+            OutputHandler.PrintException("Error hooking into World Guard", e);
+            Enabled = false;
         }
     }
 
     public static boolean IsProtectedRegion(Location location){
         try{
             if(Enabled){
-                int version = NmsHelper.getSimpleVersion();
-                if(version <= 12) {
+                RegionManager regionManager = com.sk89q.worldguard.bukkit.WorldGuardPlugin.inst().getRegionManager(location.getWorld());
+                if (regionManager == null)
+                    return false;
 
-                    RegionManager regionManager = com.sk89q.worldguard.bukkit.WorldGuardPlugin.inst().getRegionManager(location.getWorld());
-                    if (regionManager == null)
-                        return false;
+                ApplicableRegionSet regionSet = regionManager.getApplicableRegions(location);
+                if (regionSet == null)
+                    return false;
 
-                    ApplicableRegionSet regionSet = regionManager.getApplicableRegions(location);
-                    if (regionSet == null)
-                        return false;
-
-                    return regionSet.testState(null, No_Craft_Arrows);
-                }
-                else{
-                    /*RegionQuery query = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery();
-                    return query.testState(new com.sk89q.worldedit.util.Location, (RegionAssociable) null, (StateFlag) No_Craft_Arrows);*/
-                }
+                return regionSet.testState(null, No_Craft_Arrows);
             }
         }
         catch(Exception exception){
