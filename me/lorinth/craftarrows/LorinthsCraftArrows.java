@@ -269,6 +269,7 @@ public class LorinthsCraftArrows extends JavaPlugin {
         addVariant(new SoundArrowVariant(config));
         addVariant(new TeleportArrowVariant(config));
         addVariant(new TorchArrowVariant(config));
+        addVariant(new TrickOrTreatArrow(config));
         addVariant(new VortexArrowVariant(config));
         addVariant(new VolleyArrowVariant(config));
         addVariant(new WallingArrowVariant(config));

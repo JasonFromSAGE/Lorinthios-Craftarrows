@@ -3,6 +3,7 @@ package me.lorinth.craftarrows.Arrows;
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.Constants.ConfigPaths;
 import me.lorinth.craftarrows.Objects.ConfigValue;
+import me.lorinth.craftarrows.Util.Convert;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -29,8 +30,22 @@ public class TrickOrTreatArrow extends ArrowVariant{
 
     public TrickOrTreatArrow(FileConfiguration config) {
         super(config, ConfigPaths.Recipes + ".", ArrowNames.TrickOrTreat, new ArrayList<ConfigValue>(){{
-            
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.TrickOrTreat + ".Trick.Chance", 30.0));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.TrickOrTreat + ".Trick.Damage", 6.0));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.TrickOrTreat + ".Trick.Hunger", -6));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.TrickOrTreat + ".Treat.Health", 4.0));
+            add(new ConfigValue(ConfigPaths.Recipes + "." + ArrowNames.TrickOrTreat + ".Treat.Hunger", 4));
         }});
+    }
+
+    @Override
+    protected void loadDetails(FileConfiguration config) {
+        ArrayList<ConfigValue> configValues = getConfigValues();
+        trickChance = Convert.Convert(Double.class, configValues.get(0).getValue(config));
+        trickDamage = Convert.Convert(Double.class, configValues.get(1).getValue(config));
+        trickHunger = Convert.Convert(Integer.class, configValues.get(2).getValue(config));
+        treatHealth = Convert.Convert(Double.class, configValues.get(3).getValue(config));
+        treatHunger = Convert.Convert(Integer.class, configValues.get(4).getValue(config));
     }
 
     @Override
@@ -62,11 +77,6 @@ public class TrickOrTreatArrow extends ArrowVariant{
 
     @Override
     public void onBlockHit(ProjectileHitEvent event) {
-
-    }
-
-    @Override
-    protected void loadDetails(FileConfiguration config) {
 
     }
 }
