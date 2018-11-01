@@ -70,9 +70,9 @@ public class LorinthsCraftArrows extends JavaPlugin {
         checkForNewArrows();
         loadArrows();
         loadArrowDropData();
-        checkAutoUpdates();
+        //checkAutoUpdates();
         Bukkit.getPluginManager().registerEvents(new CraftArrowListener(), this);
-        Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
+        //Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
 
         ArrowRecipeMenu.load();
 
