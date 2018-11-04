@@ -1,5 +1,5 @@
 name: LorinthsCraftArrows
-version: 1.3.2
+version: 1.3.3
 description: Lorinths updated version of CraftArrows, adds 30 Custom Arrows
 main: me.lorinth.craftarrows.LorinthsCraftArrows
 softdepend: [Citizens, WorldGuard]

@@ -290,7 +290,7 @@ public class LorinthsCraftArrows extends JavaPlugin {
     }
 
     private void addVariant(ArrowVariant variant){
-        if(!variant.getRecipe().isDisabled()) {
+        if(variant.getRecipe().isEnabled()) {
             ArrowVariantList.add(variant);
             arrowVariantsByItemName.put(variant.getRecipe().getItemName().trim(), variant);
             arrowVariantsByName.put(variant.getName().trim().toLowerCase(), variant);

@@ -1,23 +1,37 @@
-#The recipes are handled here
-#Some arrows have special options, make sure you check them out! :)
+##################
+# ArrowEffects.yml
+#   - Configure recipes and arrow effects here
+#
+#   NOTE: CHANGING THE NAME OF AN ARROW WILL BREAK OLD ARROWS OF THAT TYPE - BE SURE TO CONFIGURE BEFORE LAUNCHING ON PRODUCTION SERVER
+#
+# Recipes
+#   ArrowId:
+#     Enabled: (true/false) - Do you want this to have effect on your server
+#     Craftable: (true/false) - Do you want the arrow to be craftable?
+#     Name: (string) - The arrows name as it appears ingame on the item (takes color code)
+#     Desc: (string) - The lore displayed on the item
+#     Amount: (number) - The number of arrows created by the recipe
+#     ShapeChars: (list of letters) - The characters used in the shape of the recipe
+#     CharMats: (list of materials) - The materials that match the characters in ShapeChars (must have same number of values as ShapeChars)
+#     Shape-1: Top line of recipe in crafting table
+#     Shape-2: Middle line of recipe in crafting table
+#     Shape-3: Bottom line of recipe in crafting table
+#
+#   Potion specific options
+#     Duration: (number) - duration in ticks the effect lasts (20 ticks = 1 second)
+#     Power: (number) - effect level (0 = level 1, 1 = level 2, etc)
+#
+#
+
 Recipes:
-#Handles the crippling arrow
   Blinding:
-#Is the arrow enabled? Aka can it be crafted? (NOTE: If this is false, any arrow ALREADY crafted can STILL be shot!)
     Enabled: true
-#The arrows name as it appears ingame
+    Craftable: true
     Name: Blinding Arrow
-#The arrows lore (NOTE: If you change this, all arrows that have PREVIOUSLY been crafted will no longer work! If you have a FRESH install, feel free to change this!)
     Desc: Blinds your target
-#How long should the arrow do it's effect in ticks? Seconds*20 = ticks (For example, 5 seconds are 100 ticks)
     Duration: 45
-#How powerful should the arrow's effect be? (For potion effects) This would be BLINDING I
     Power: 0
-#How many arrows should be crafted per recipe?
     Amount: 1
-#Each ShapeChar is set to one CharMat (A is Feather, B is Stick, C is snowball, D is empty space). You can freely add to this list up to 9 ShapeChars (Because MineCraft has max. 9 different Crafting components!)
-#Shape-1 to Shape-3 looks like a crafting grid (Like a crafting table ingame!) It will take the ShapeChars, and the plugin will look which ShapeMat is linked to it, and prepare the crafting recipe.
-#If you want your CharMat to have a DataValue, simply add a ',' (comma) and the number behind it like so: - LOG,2 (this would be birch wood)
     ShapeChars:
     - A
     - B
@@ -33,6 +47,7 @@ Recipes:
     Shape-3: DCD
   BlindingAoe:
     Enabled: true
+    Craftable: true
     Name: Blinding Burst Arrow
     Desc: Blinds multiple targets
     Duration: 45
@@ -53,9 +68,9 @@ Recipes:
     Shape-3: CCC
   Blood:
     Enabled: true
+    Craftable: true
     Name: Blood Arrow
     Desc: Deals damage and heals you
-#For how much should it heal? Hearts = HealPower/2 (So 6 HealPower = 3 Hearts)
     HealPower: 6
     Amount: 1
     ShapeChars:
@@ -73,6 +88,7 @@ Recipes:
     Shape-3: DCD
   Bone:
     Enabled: true
+    Craftable: true
     Name: Bone Arrow
     Desc: Deals damage and turns target into a Skeleton!
     Damage: 4
@@ -94,6 +110,7 @@ Recipes:
     Shape-3: DCD
   Confusion:
     Enabled: true
+    Craftable: true
     Name: Confusion Arrow
     Desc: Confuses target
     Duration: 160
@@ -116,6 +133,7 @@ Recipes:
     Shape-3: EDE
   ConfusionAoe:
     Enabled: true
+    Craftable: true
     Name: Confusion Burst Arrow
     Desc: Confuses multiple targets
     Duration: 160
@@ -138,6 +156,7 @@ Recipes:
     Shape-3: DDD
   Cooling:
     Enabled: true
+    Craftable: true
     Name: Cooling Arrow
     Desc: Turn lava to obsidian!
     Amount: 1
@@ -158,6 +177,7 @@ Recipes:
     Shape-3: DCD
   Crippling:
     Enabled: true
+    Craftable: true
     Name: Crippling Arrow
     Desc: Slows down target
     Duration: 60
@@ -178,6 +198,7 @@ Recipes:
     Shape-3: DAD
   CripplingAoe:
     Enabled: true
+    Craftable: true
     Name: Crippling Burst Arrow
     Desc: Slows down multiple targets
     Duration: 60
@@ -198,6 +219,7 @@ Recipes:
     Shape-3: AAA
   Explosive:
     Enabled: true
+    Craftable: true
     Name: Explosive Arrow
     Desc: Create an explosion
     Power: 4
@@ -218,10 +240,10 @@ Recipes:
     Shape-3: DCD
   Fire:
     Enabled: true
+    Craftable: true
     Name: Fire Arrow
     Desc: Set your enemy alight
     Duration: 60
-#Should the arrow light surrounding blocks on fire?
     BurnBlocks: true
     Amount: 1
     ShapeChars:
@@ -239,6 +261,7 @@ Recipes:
     Shape-3: DCD
   Forcefield:
     Enabled: true
+    Craftable: true
     Name: Forcefield Arrow
     Desc: Pushes enemies away
     Amount: 1
@@ -257,9 +280,10 @@ Recipes:
     Shape-3: DCD
   Homing:
     Enabled: true
+    Craftable: true
     Name: Homing Arrow
     Desc: Arrow homes in on enemies
-    Velocity: 1.0 #How fast should the homing arrow move?
+    Velocity: 1.0
     Damage: 5.0
     Amount: 1
     ShapeChars:
@@ -275,6 +299,7 @@ Recipes:
     Shape-3: CCC
   Ice:
     Enabled: true
+    Craftable: true
     Name: Ice Arrow
     Desc: Turn water to ice!
     Amount: 1
@@ -297,6 +322,7 @@ Recipes:
     Shape-3: EDE
   Lance:
     Enabled: true
+    Craftable: true
     Name: Lance Arrow
     Desc: Pierce through your enemies!
     PierceDistance: 5
@@ -316,6 +342,7 @@ Recipes:
     Shape-3: CCC
   JackO:
     Enabled: true
+    Craftable: true
     Name: Jack O' Arrow
     Desc: Super spooky arrow that changes a targets helmet to a jack o lantern! Or places the block on landing
     PlaceBlock: true
@@ -336,6 +363,7 @@ Recipes:
     Shape-3: CCC
   Levitation:
     Enabled: true
+    Craftable: true
     Name: Levitation Arrow
     Desc: Make your enemy fly to their doom!
     Duration: 40
@@ -354,6 +382,7 @@ Recipes:
     Shape-3: CAC
   LevitationAoe:
     Enabled: true
+    Craftable: true
     Name: Levitation Burst Arrow
     Desc: Make your enemies fly to their doom!
     Duration: 40
@@ -372,9 +401,9 @@ Recipes:
     Shape-3: AAA
   Lightning:
     Enabled: true
+    Craftable: true
     Name: Lightning Arrow
     Desc: Strike down lightning
-#How many lightning strikes should be spawned?
     Count: 2
     Amount: 1
     ShapeChars:
@@ -392,10 +421,10 @@ Recipes:
     Shape-3: DCD
   Medic:
     Enabled: true
+    Craftable: true
     Name: Medical Arrow
     Desc: Provide healing
     Amount: 1
-#For how much health should 1 arrow heal? 2 health = 1 complete heart.
     HealPower: 8
     ShapeChars:
     - A
@@ -412,6 +441,7 @@ Recipes:
     Shape-3: DCD
   Multishot:
     Enabled: true
+    Craftable: true
     Name: Multishot Arrow
     Desc: Fire multiple arrows
     Amount: 1
@@ -428,12 +458,11 @@ Recipes:
     Shape-3: BAB
   Net:
     Enabled: true
+    Craftable: true
     Name: Net Arrow
     Desc: Immobilize your target
     Amount: 1
-#Should we try to remove the webs after x seconds?
     CleanUpWebs: true
-#After how many ticks should we remove the webs? 20*seconds = ticks (So 5 seconds are 100 ticks, etc)
     CleanUpWebsDelay: 100
     ShapeChars:
     - A
@@ -450,9 +479,9 @@ Recipes:
     Shape-3: DCD
   Piercing:
     Enabled: true
+    Craftable: true
     Name: Piercing Arrow
     Desc: Deals bonus damage to armored targets
-#How much bonus damage should be applied? BonusDamage/2 = Hearts (So 4 BonusDamage = 2 Hearts)
     BonusDamage: 4
     Amount: 1
     ShapeChars:
@@ -470,6 +499,7 @@ Recipes:
     Shape-3: DCD
   Poison:
     Enabled: true
+    Craftable: true
     Name: Poison Arrow
     Desc: Poison your target
     Duration: 100
@@ -490,6 +520,7 @@ Recipes:
     Shape-3: DCD
   Pull:
     Enabled: true
+    Craftable: true
     Name: Pull Arrow
     Desc: Pulls target to you
     Amount: 1
@@ -508,9 +539,9 @@ Recipes:
     Shape-3: DCD
   Push:
     Enabled: true
+    Craftable: true
     Name: FUS RO DAH Arrow
     Desc: Push enemies away
-#How far should we push enemies? In blocks.
     Power: 2
     Amount: 1
     ShapeChars:
@@ -528,9 +559,9 @@ Recipes:
     Shape-3: DCD
   Razor:
     Enabled: true
+    Craftable: true
     Name: Razor Arrow
     Desc: Deals bonus damage to unarmored targets
-#How much bonus damage should be applied? BonusDamage/2 = Hearts (So 4 BonusDamage = 2 Hearts)
     BonusDamage: 4
     Amount: 1
     ShapeChars:
@@ -548,6 +579,7 @@ Recipes:
     Shape-3: DCD
   Shuffle:
     Enabled: true
+    Craftable: true
     Name: Shuffle Arrow
     Desc: Switch position with your target
     Amount: 1
@@ -566,9 +598,10 @@ Recipes:
     Shape-3: DBD
   Sniper:
     Enabled: true
+    Craftable: true
     Name: Sniper Arrow
     Desc: Arrow flies true and fast
-    VelocityMultiplier: 2.0 # Travels 2x faster than normal arrows
+    VelocityMultiplier: 2.0
     Amount: 1
     ShapeChars:
     - A
@@ -583,6 +616,7 @@ Recipes:
     Shape-3: BBB
   Sound:
     Enabled: true
+    Craftable: true
     Name: Sound Arrow
     Desc: Scare your enemies away
     Amount: 1
@@ -607,6 +641,7 @@ Recipes:
     Shape-3: DCD
   Teleport:
     Enabled: true
+    Craftable: true
     Name: Teleport Arrow
     Desc: Teleports you to your arrow
     Amount: 1
@@ -625,6 +660,7 @@ Recipes:
     Shape-3: DAD
   TrickOrTreat:
     Enabled: true
+    Craftable: true
     Name: Trick or Treat Arrow
     Desc: Heal your targets health and hunger or remove it!
     Amount: 1
@@ -650,6 +686,7 @@ Recipes:
       Shape-3: DCD
   Torch:
     Enabled: true
+    Craftable: true
     Name: Torch Arrow
     Desc: Light up your surroundings
     Amount: 1
@@ -668,6 +705,7 @@ Recipes:
     Shape-3: DCD
   Volley:
     Enabled: true
+    Craftable: true
     Name: Volley Arrow
     Desc: Rain hell on your enemies!
     Amount: 1
@@ -682,6 +720,7 @@ Recipes:
     Shape-3: AAA
   Vortex:
     Enabled: true
+    Craftable: true
     Name: Vortex Arrow
     Desc: Sucks enemies into the vortex
     Amount: 1
@@ -700,6 +739,7 @@ Recipes:
     Shape-3: DCD
   Walling:
     Enabled: true
+    Craftable: true
     Name: Walling Arrow
     Desc: Creates a wall!
     Amount: 1
@@ -730,12 +770,11 @@ Recipes:
     Shape-3: EDE
   Water:
     Enabled: true
+    Craftable: true
     Name: Water Arrow
     Desc: Flush away your enemies
     Amount: 1
-#Should we try to remove the water after x seconds?
     CleanUpWater: true
-#After how many ticks should we remove the water? 20*seconds = ticks (So 5 seconds are 100 ticks, etc)
     CleanUpWaterDelay: 100
     ShapeChars:
     - A
@@ -752,6 +791,7 @@ Recipes:
     Shape-3: DCD
   Weakness:
     Enabled: true
+    Craftable: true
     Name: Weakness Arrow
     Desc: Weaken foes
     Duration: 140
@@ -772,6 +812,7 @@ Recipes:
     Shape-3: DBD
   Wither:
     Enabled: true
+    Craftable: true
     Name: Wither Arrow
     Desc: Shoot a Witherskull
     BreakBlocks: false

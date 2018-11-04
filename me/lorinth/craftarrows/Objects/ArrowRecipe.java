@@ -1,6 +1,7 @@
 package me.lorinth.craftarrows.Objects;
 
 import me.lorinth.craftarrows.LorinthsCraftArrows;
+import me.lorinth.craftarrows.Util.ConfigHelper;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import me.lorinth.craftarrows.Util.TryParse;
 import org.bukkit.Bukkit;
@@ -21,9 +22,10 @@ public class ArrowRecipe {
 
     private HashMap<Character, Material> recipeMaterials = new HashMap<>();
     private HashMap<Character, Byte> recipeData = new HashMap<>();
-    private boolean isDisabled = false;
+    private boolean isEnabled = false;
+    private boolean isCraftable = true;
     private String itemName = "";
-    private String description = "";
+    private List<String> description = new ArrayList<>();
     private ItemStack item = new ItemStack(Material.ARROW);
     private Integer craftCount;
     private String recipe1 = "";
@@ -38,26 +40,47 @@ public class ArrowRecipe {
     public String getItemName(){
         return itemName;
     }
-    public ItemStack getItem(){ return item; }
-    public boolean isDisabled(){ return isDisabled; }
+    public ItemStack getItem(){
+        return item;
+    }
+    public boolean isEnabled(){
+        return isEnabled;
+    }
+    public boolean isCraftable() {
+        return isCraftable;
+    }
 
     private void load(FileConfiguration config, String prefix, String name){
         prefix = prefix + "." + name;
         loadConfigValues(config, prefix, name);
         loadRecipeData(config, prefix, name);
         makeItem();
-        if(!isDisabled)
+        if(isEnabled)
             makeRecipe(name);
     }
 
     private void loadConfigValues(FileConfiguration config, String prefix, String name){
-        isDisabled = !config.getBoolean(prefix + ".Enabled");
+        isEnabled = config.getBoolean(prefix + ".Enabled");
+        if(ConfigHelper.ConfigContainsPath(config, prefix + ".Craftable"))
+            isCraftable = config.getBoolean(prefix + ".Craftable");
+        else
+            config.set(prefix + ".Craftable", true);
+
         recipe1 = config.getString(prefix + ".Shape-1");
         recipe2 = config.getString(prefix + ".Shape-2");
         recipe3 = config.getString(prefix + ".Shape-3");
 
         itemName = config.getString(prefix + ".Name").replace("&", "§") + nameGarbage;
-        description = config.getString(prefix + ".Desc").replace("&", "§");
+        description = new ArrayList<>();
+
+        Object obj = config.get(prefix + ".Desc");
+        if(obj instanceof String)
+            description.add(ChatColor.translateAlternateColorCodes('&', (String) obj));
+        else{
+            for(String line : config.getStringList(prefix + ".Desc")){
+                description.add(ChatColor.translateAlternateColorCodes('&', line));
+            }
+        }
         craftCount = config.getInt(prefix + ".Amount");
     }
 
@@ -104,7 +127,7 @@ public class ArrowRecipe {
     private void makeItem(){
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(itemName);
-        meta.setLore(new ArrayList<String>(){{ add(description); }});
+        meta.setLore(description);
         item.setItemMeta(meta);
         item.setAmount(craftCount);
     }
@@ -127,7 +150,8 @@ public class ArrowRecipe {
                 recipe.setIngredient(cha, recipeMaterials.get(cha));
         }
 
-        LorinthsCraftArrows.AddRecipe(recipe);
+        if(isCraftable)
+            LorinthsCraftArrows.AddRecipe(recipe);
     }
 
     public ItemStack[][] getRecipeMaterials(){
