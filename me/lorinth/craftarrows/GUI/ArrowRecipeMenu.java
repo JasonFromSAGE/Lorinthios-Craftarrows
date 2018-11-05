@@ -24,24 +24,26 @@ public class ArrowRecipeMenu{
 
         int index = 0;
         for(ArrowVariant variant : LorinthsCraftArrows.ArrowVariantList){
-            IconMenu menu = new IconMenu(variant.getRecipe().getItemName(), 5, ArrowRecipeMenu::click);
-            ItemStack[][] materials = variant.getRecipe().getRecipeMaterials();
+            if(variant.getRecipe().isCraftable()){
+                IconMenu menu = new IconMenu(variant.getRecipe().getItemName(), 5, ArrowRecipeMenu::click);
+                ItemStack[][] materials = variant.getRecipe().getRecipeMaterials();
 
-            for(int y=0; y<3; y++){
-                for(int x=0; x<3; x++){
-                    menu.addButton(menu.getRow(1 + y), 2 + x, materials[y][x], null);
+                for(int y=0; y<3; y++){
+                    for(int x=0; x<3; x++){
+                        menu.addButton(menu.getRow(1 + y), 2 + x, materials[y][x], null);
+                    }
                 }
+
+                menu.addButton(menu.getRow(2), 6, variant.getRecipe().getItem(), null);
+
+                // Add Buttons
+                menu.addButton(menu.getRow(2), 0, new ItemStack(Material.PAPER), ChatColor.YELLOW + "Left");
+                menu.addButton(menu.getRow(2), 8, new ItemStack(Material.PAPER), ChatColor.YELLOW + "Right");
+
+                recipeMenus.add(menu);
+                variantPage.put(variant, index);
+                index++;
             }
-
-            menu.addButton(menu.getRow(2), 6, variant.getRecipe().getItem(), null);
-
-            // Add Buttons
-            menu.addButton(menu.getRow(2), 0, new ItemStack(Material.PAPER), ChatColor.YELLOW + "Left");
-            menu.addButton(menu.getRow(2), 8, new ItemStack(Material.PAPER), ChatColor.YELLOW + "Right");
-
-            recipeMenus.add(menu);
-            variantPage.put(variant, index);
-            index++;
         }
     }
 

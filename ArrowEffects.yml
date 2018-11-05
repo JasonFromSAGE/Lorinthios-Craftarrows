@@ -681,9 +681,9 @@ Recipes:
     - STICK
     - FEATHER
     - AIR
-      Shape-1: DAD
-      Shape-2: DBD
-      Shape-3: DCD
+    Shape-1: DAD
+    Shape-2: DBD
+    Shape-3: DCD
   Torch:
     Enabled: true
     Craftable: true
