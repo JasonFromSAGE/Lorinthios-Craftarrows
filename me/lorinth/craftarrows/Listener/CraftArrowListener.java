@@ -151,8 +151,10 @@ public class CraftArrowListener implements Listener {
             List<ItemStack> drops = event.getDrops();
             for(int i=0; i<drops.size(); i++){
                 ItemStack item = drops.get(i);
-                if(item.getType() == Material.ARROW){
-                    drops.set(i, LorinthsCraftArrows.getRandomArrowDrop());
+                if(item != null){
+                    if(item.getType() == Material.ARROW){
+                        drops.set(i, LorinthsCraftArrows.getRandomArrowDrop());
+                    }
                 }
             }
         }

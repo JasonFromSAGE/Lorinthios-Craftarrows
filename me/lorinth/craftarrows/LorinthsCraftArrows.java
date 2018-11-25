@@ -87,7 +87,7 @@ public class LorinthsCraftArrows extends JavaPlugin {
         if(commandLabel.equalsIgnoreCase("lca")){
             if(args.length > 0) {
                 if (args[0].equalsIgnoreCase("reload")) {
-                    if (!sender.hasPermission("lca.reload"))
+                    if (!sender.hasPermission("lca.reload") && !sender.hasPermission("craftarrow.reload"))
                         OutputHandler.PrintError(sender, "You don't have permission to do that");
                     else {
                         RemoveAllRecipes();

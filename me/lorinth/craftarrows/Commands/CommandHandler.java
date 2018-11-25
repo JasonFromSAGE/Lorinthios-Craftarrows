@@ -14,7 +14,7 @@ public class CommandHandler {
 
     public static void ProcessCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
         if(args[0].equalsIgnoreCase("give")){
-            if(!sender.hasPermission("lca.give"))
+            if(!sender.hasPermission("lca.give") && !sender.hasPermission("craftarrow.give"))
                 OutputHandler.PrintError(sender, "You don't have permission to do that");
             else{
                 //lca give <player> <arrow> <count>

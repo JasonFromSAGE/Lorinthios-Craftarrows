@@ -86,28 +86,6 @@ Recipes:
     Shape-1: DAD
     Shape-2: DBD
     Shape-3: DCD
-  Bone:
-    Enabled: true
-    Craftable: true
-    Name: Bone Arrow
-    Desc: Deals damage and turns target into a Skeleton!
-    Damage: 4
-    Transform: true
-    TransformDuration: 100
-    Amount: 1
-    ShapeChars:
-    - A
-    - B
-    - C
-    - D
-    CharMats:
-    - FLINT
-    - BONE
-    - FEATHER
-    - AIR
-    Shape-1: DAD
-    Shape-2: DBD
-    Shape-3: DCD
   Confusion:
     Enabled: true
     Craftable: true
@@ -320,26 +298,6 @@ Recipes:
     Shape-1: BAB
     Shape-2: ECE
     Shape-3: EDE
-  Lance:
-    Enabled: true
-    Craftable: true
-    Name: Lance Arrow
-    Desc: Pierce through your enemies!
-    PierceDistance: 5
-    TargetDamage: 6
-    PierceDamage: 3
-    Amount: 1
-    ShapeChars:
-    - A
-    - B
-    - C
-    CharMats:
-    - STONE_SWORD
-    - ARROW
-    - AIR
-    Shape-1: CAC
-    Shape-2: CBC
-    Shape-3: CCC
   JackO:
     Enabled: true
     Craftable: true
@@ -356,6 +314,26 @@ Recipes:
     - C
     CharMats:
     - JACK_O_LANTERN
+    - ARROW
+    - AIR
+    Shape-1: CAC
+    Shape-2: CBC
+    Shape-3: CCC
+  Lance:
+    Enabled: true
+    Craftable: true
+    Name: Lance Arrow
+    Desc: Pierce through your enemies!
+    PierceDistance: 5
+    TargetDamage: 6
+    PierceDamage: 3
+    Amount: 1
+    ShapeChars:
+    - A
+    - B
+    - C
+    CharMats:
+    - STONE_SWORD
     - ARROW
     - AIR
     Shape-1: CAC
