@@ -6,6 +6,7 @@ import me.lorinth.craftarrows.Listener.CraftArrowListener;
 import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Util.VectorHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -31,34 +32,24 @@ public class VortexArrowVariant extends ArrowVariant{
 
     @Override
     public void onEntityHit(ProjectileHitEvent event) {
-        Entity hitEntity = event.getHitEntity();
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                for(Entity entity : hitEntity.getNearbyEntities(5, 5, 5)){
-                    if(entity != hitEntity)
-                        entity.setVelocity(VectorHelper.getVectorBetween(entity.getLocation(), hitEntity.getLocation(), 0, 0.5));
-                }
-            }
-        };
-        BukkitTask task = runnable.runTaskTimer(LorinthsCraftArrows.instance, 2, 2);
-
-        Bukkit.getScheduler().runTaskLater(LorinthsCraftArrows.instance, () -> {
-            Bukkit.getScheduler().cancelTask(task.getTaskId());
-        }, 20 * 1);
+        createVortex(event.getEntity(), event.getHitEntity());
     }
 
     @Override
     public void onBlockHit(ProjectileHitEvent event) {
-        Entity projectile = event.getEntity();
+        createVortex(event.getEntity(), null);
+    }
+
+    private void createVortex(Entity arrow, Entity hitEntity){
+        Location hitLocation = arrow.getLocation();
+
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-            for(Entity entity : event.getEntity().getNearbyEntities(5, 5, 5)){
-
-                if(entity != projectile && !CraftArrowListener.ignoredEntities.contains(entity))
-                    entity.setVelocity(VectorHelper.getVectorBetween(entity.getLocation(), projectile.getLocation(), 0, 0.5));
-            }
+                for(Entity entity : hitEntity.getNearbyEntities(5, 5, 5)){
+                    if(entity != hitEntity && !CraftArrowListener.ignoredEntities.contains(entity))
+                        entity.setVelocity(VectorHelper.getVectorBetween(entity.getLocation(), hitEntity != null ? hitEntity.getLocation() : hitLocation, 0, 0.5));
+                }
             }
         };
         BukkitTask task = runnable.runTaskTimer(LorinthsCraftArrows.instance, 2, 2);
