@@ -90,6 +90,8 @@ public class CraftArrowListener implements Listener {
                     ((CombatArrowVariant) variant).onEntityHit(event, (Projectile) event.getDamager(), entity);
                     event.getDamager().remove();
                 }
+
+                arrow.remove();
             }
             Double damage = ArrowManager.GetDamage(arrow);
             if(damage != null)
@@ -125,6 +127,7 @@ public class CraftArrowListener implements Listener {
                     variant.onEntityHit(event);
                 else if (block != null)
                     variant.onBlockHit(event);
+                arrow.remove();
             }
         }
     }
