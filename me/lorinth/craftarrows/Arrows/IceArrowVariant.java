@@ -46,7 +46,7 @@ public class IceArrowVariant extends ArrowVariant{
                 Location location = arrow.getLocation();
                 Block block = location.getBlock();
                 Material material = block.getType();
-                if (material == Material.WATER || material == Material.STATIONARY_WATER) {
+                if (material == Material.WATER) {
                     arrow.remove();
                     freeze(location);
                     cancel();
@@ -76,7 +76,7 @@ public class IceArrowVariant extends ArrowVariant{
             for(int y=-1; y<=2; y++){
                 for(int z=-1; z<=1; z++){
                     Block relative = block.getRelative(x, y, z);
-                    if(relative.getType() == Material.WATER || relative.getType() == Material.STATIONARY_WATER){
+                    if(relative.getType() == Material.WATER){
                         changed.put(relative, relative.getType());
                         relative.setType(Material.ICE);
                     }

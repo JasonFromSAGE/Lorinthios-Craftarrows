@@ -4,7 +4,6 @@ import me.lorinth.craftarrows.LorinthsCraftArrows;
 import me.lorinth.craftarrows.Util.ConfigHelper;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import me.lorinth.craftarrows.Util.TryParse;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -120,7 +119,6 @@ public class ArrowRecipe {
             OutputHandler.PrintError("Recipe for, " + name + ", does not work");
             OutputHandler.PrintError("Mistmatched items between, ShapeChars and CharMats");
             OutputHandler.PrintError("Recipe disabled");
-            return;
         }
     }
 
@@ -142,7 +140,7 @@ public class ArrowRecipe {
             }
         }
 
-        recipe.shape(new String[]{ recipe1, recipe2, recipe3 });
+        recipe.shape(recipe1, recipe2, recipe3);
         for(Character cha : recipeMaterials.keySet()){
             if(recipeData.containsKey(cha))
                 recipe.setIngredient(cha, new MaterialData(recipeMaterials.get(cha), recipeData.get(cha)));

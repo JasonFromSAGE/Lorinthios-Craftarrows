@@ -1,31 +1,32 @@
 package me.lorinth.craftarrows;
 
 import me.lorinth.craftarrows.Arrows.*;
-import me.lorinth.craftarrows.Commands.CommandHandler;
+import me.lorinth.craftarrows.Commands.executors.CraftArrowsCommandExecutor;
+import me.lorinth.craftarrows.Commands.tabcompleters.CraftArrowsTabCompleter;
 import me.lorinth.craftarrows.Constants.ArrowNames;
 import me.lorinth.craftarrows.GUI.ArrowRecipeMenu;
 import me.lorinth.craftarrows.Listener.CraftArrowListener;
-import me.lorinth.craftarrows.Listener.UpdaterEventListener;
 import me.lorinth.craftarrows.Npc.NoCraftArrowTrait;
-import me.lorinth.craftarrows.Objects.*;
+import me.lorinth.craftarrows.Objects.ArrowDropData;
 import me.lorinth.craftarrows.Objects.Properties;
+import me.lorinth.craftarrows.Objects.RandomCollection;
+import me.lorinth.craftarrows.Objects.Tuple;
 import me.lorinth.craftarrows.Util.NmsHelper;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import me.lorinth.craftarrows.WorldGuard.NoCraftArrowFlag;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 public class LorinthsCraftArrows extends JavaPlugin {
@@ -33,7 +34,6 @@ public class LorinthsCraftArrows extends JavaPlugin {
     public static LorinthsCraftArrows instance;
     public static Properties properties = new Properties();
     private YamlConfiguration skeletonArrows;
-    private Updater updater;
     public static ArrayList<ArrowVariant> ArrowVariantList;
     private static HashMap<String, ArrowVariant> arrowVariantsByItemName;
     private static HashMap<String, ArrowVariant> arrowVariantsByName;
@@ -49,8 +49,8 @@ public class LorinthsCraftArrows extends JavaPlugin {
     @Override
     public void onEnable(){
         int version = NmsHelper.getSimpleVersion();
-        if(version > 12){
-            OutputHandler.PrintError("You are running a version greater than 1.12. Please download the 1.13 version");
+        if(version < 13){
+            OutputHandler.PrintError("You are running a version less than 1.13. Please download the 1.12 version");
             return;
         }
 
@@ -70,9 +70,8 @@ public class LorinthsCraftArrows extends JavaPlugin {
         checkForNewArrows();
         loadArrows();
         loadArrowDropData();
-        //checkAutoUpdates();
         Bukkit.getPluginManager().registerEvents(new CraftArrowListener(), this);
-        //Bukkit.getPluginManager().registerEvents(new UpdaterEventListener(updater), this);
+        setupCommands();
 
         ArrowRecipeMenu.load();
 
@@ -83,47 +82,27 @@ public class LorinthsCraftArrows extends JavaPlugin {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-        if(commandLabel.equalsIgnoreCase("lca")){
-            if(args.length > 0) {
-                if (args[0].equalsIgnoreCase("reload")) {
-                    if (!sender.hasPermission("lca.reload") && !sender.hasPermission("craftarrow.reload"))
-                        OutputHandler.PrintError(sender, "You don't have permission to do that");
-                    else {
-                        RemoveAllRecipes();
-                        startup(false);
-                        sender.sendMessage(ChatColor.GREEN + "[LorinthsCraftArrows]: Reloaded!");
-                    }
-                } else
-                    CommandHandler.ProcessCommand(sender, cmd, commandLabel, args);
-            }
-            else
-                sendHelp(sender);
-        }
-        return true;
-    }
-
-    public static void sendHelp(CommandSender sender){
-        if(sender.hasPermission("lca.reload"))
-            OutputHandler.PrintRawInfo(sender, "/lca reload");
-        if(sender.hasPermission("lca.give"))
-            OutputHandler.PrintRawInfo(sender, "/lca give <player> <arrow> <count>");
-        OutputHandler.PrintRawInfo(sender, "/lca recipes [name] - lookup a recipe by simple name (e.g. Freezing Arrow = freezing)");
-    }
-
-    @Override
     public void onLoad(){
         OutputHandler.PrintInfo("Lorinths Craft Arrows : On Load");
         hookWorldGuard();
+    }
+
+    public static void reloadPlugin(){
+        instance.RemoveAllRecipes();
+        instance.startup(false);
     }
 
     private void loadConfig(){
         YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
         properties.UsePermissions = config.getBoolean("UsePermissions");
         properties.InfinityBowWorks = config.getBoolean("InfinityBowWorks");
-        properties.AutoUpdate = config.getBoolean("AutoUpdate");
         properties.SkeletonCanShootArrow = config.getBoolean("SkeletonCanShootArrow");
         properties.SkeletonsDropArrows = config.getBoolean("SkeletonsDropArrows");
+    }
+
+    private void setupCommands(){
+        getCommand("lca").setExecutor(new CraftArrowsCommandExecutor());
+        getCommand("lca").setTabCompleter(new CraftArrowsTabCompleter());
     }
 
     public static ArrowVariant getArrowVariantForItemName(String name){
@@ -136,11 +115,8 @@ public class LorinthsCraftArrows extends JavaPlugin {
         return arrowVariantsByName.get(name.toLowerCase());
     }
 
-    private void checkAutoUpdates(){
-        if(properties.AutoUpdate)
-            updater = new Updater(this, getFile(), Updater.UpdateType.DEFAULT);
-        else
-            updater = new Updater(this, getFile(), Updater.UpdateType.NO_DOWNLOAD);
+    public static List<ArrowVariant> getAllArrowVariants(){
+        return ArrowVariantList;
     }
 
     public static ItemStack getRandomArrowDrop(){

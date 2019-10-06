@@ -1,0 +1,21 @@
+package me.lorinth.craftarrows.Commands.executors;
+
+import me.lorinth.craftarrows.LorinthsCraftArrows;
+import me.lorinth.craftarrows.Util.OutputHandler;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+public class CraftArrowsReloadCommandExecutor implements CommandExecutor {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
+        if (!sender.hasPermission("lca.reload") && !sender.hasPermission("craftarrow.reload"))
+            OutputHandler.PrintError(sender, "You don't have permission to do that");
+        else {
+            LorinthsCraftArrows.reloadPlugin();
+            sender.sendMessage(ChatColor.GREEN + "[LorinthsCraftArrows]: Reloaded!");
+        }
+        return false;
+    }
+}

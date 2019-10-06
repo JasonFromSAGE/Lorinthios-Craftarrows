@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public abstract class ArrowVariant {
 
+    private String id;
     private String name;
     private ArrowRecipe recipe;
     private ArrayList<ConfigValue> configValues = new ArrayList<>();

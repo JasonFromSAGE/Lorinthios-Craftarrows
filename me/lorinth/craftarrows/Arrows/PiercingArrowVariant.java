@@ -39,8 +39,10 @@ public class PiercingArrowVariant extends ArrowVariant{
         if(event.getHitEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity) event.getHitEntity();
             EntityEquipment equipment = living.getEquipment();
-            if(equipment.getHelmet().getType() != Material.AIR || equipment.getChestplate().getType() != Material.AIR ||
-                    equipment.getLeggings().getType() != Material.AIR || equipment.getBoots().getType() != Material.AIR){
+            if((equipment.getHelmet() != null && equipment.getHelmet().getType() != Material.AIR) ||
+                    (equipment.getChestplate() != null && equipment.getChestplate().getType() != Material.AIR) ||
+                    (equipment.getLeggings() != null && equipment.getLeggings().getType() != Material.AIR) ||
+                    (equipment.getBoots() != null && equipment.getBoots().getType() != Material.AIR)){
                 living.setHealth(Math.max(0, living.getHealth() - extraDamage));
             }
         }

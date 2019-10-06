@@ -69,9 +69,10 @@ public class CraftArrowListener implements Listener {
     public void onProjectileHitEntity(EntityDamageByEntityEvent event){
         if (event.getDamager() instanceof Arrow){
             Entity arrow = event.getDamager();
+            Entity target = event.getEntity();
             ArrowVariant variant = ArrowManager.GetVariant(arrow);
-            if(variant != null){
-                LivingEntity entity = (LivingEntity) event.getEntity();
+            if(variant != null && target instanceof LivingEntity ){
+                LivingEntity entity = (LivingEntity) target;
 
                 if(ignoredEntities.contains(entity)) {
                     event.setCancelled(true);

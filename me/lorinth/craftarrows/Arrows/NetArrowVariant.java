@@ -59,7 +59,7 @@ public class NetArrowVariant extends ArrowVariant{
                     Block relative = block.getRelative(x, y, z);
                     if(relative.getType() == Material.AIR && relative.getRelative(0, -1, 0).getType() != Material.AIR){
                         changed.put(relative, relative.getType());
-                        relative.setType(Material.WEB);
+                        relative.setType(Material.COBWEB);
                     }
                 }
             }

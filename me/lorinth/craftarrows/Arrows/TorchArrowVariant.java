@@ -5,6 +5,7 @@ import me.lorinth.craftarrows.Constants.ConfigPaths;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -52,7 +53,17 @@ public class TorchArrowVariant extends ArrowVariant{
         for(BlockFace face : faces.keySet()) {
             Block relative = block.getRelative(face);
             if(relative.getType() == Material.AIR) {
-                block.getRelative(face).setTypeIdAndData(Material.TORCH.getId(), faces.get(face), true);
+                if(face == BlockFace.UP)
+                    block.getRelative(face).setType(Material.TORCH);
+                else{
+                    Block blockRelative = block.getRelative(face);
+                    blockRelative.setType(Material.WALL_TORCH);
+
+                    //Set Direction
+                    Directional directional = (Directional) blockRelative.getBlockData();
+                    directional.setFacing(face);
+                    blockRelative.setBlockData(directional);
+                }
             }
         }
     }

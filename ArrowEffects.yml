@@ -169,7 +169,7 @@ Recipes:
     CharMats:
     - FEATHER
     - STICK
-    - SNOW_BALL
+    - SNOWBALL
     - AIR
     Shape-1: CCC
     Shape-2: DBD
@@ -191,7 +191,7 @@ Recipes:
     CharMats:
     - FEATHER
     - STICK
-    - SNOW_BALL
+    - SNOWBALL
     Shape-1: CCC
     Shape-2: BBB
     Shape-3: AAA
@@ -230,7 +230,7 @@ Recipes:
     - C
     - D
     CharMats:
-    - FIREBALL
+    - FIRE_CHARGE
     - STICK
     - FEATHER
     - AIR
@@ -249,7 +249,7 @@ Recipes:
     - C
     - D
     CharMats:
-    - IRON_FENCE
+    - IRON_BARS
     - STICK
     - FEATHER
     - AIR
@@ -291,7 +291,7 @@ Recipes:
     - E
     CharMats:
     - WATER_BUCKET
-    - SNOW_BALL
+    - SNOWBALL
     - STICK
     - FEATHER
     - AIR
@@ -587,7 +587,7 @@ Recipes:
     - C
     CharMats:
     - ARROW
-    - SULPHUR
+    - GUNPOWDER
     - AIR
     Shape-1: CCC
     Shape-2: CAC
@@ -708,7 +708,7 @@ Recipes:
     - C
     - D
     CharMats:
-    - EYE_OF_ENDER
+    - ENDER_EYE
     - STICK
     - FEATHER
     - AIR
@@ -801,7 +801,7 @@ Recipes:
     - C
     - D
     CharMats:
-    - SKULL_ITEM,1
+    - WITHER_SKELETON_SKULL
     - STICK
     - FEATHER
     - AIR

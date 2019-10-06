@@ -2,8 +2,6 @@
 UsePermissions: false
 #Allow infinity bows to shoot special arrows without it taking the arrow?
 InfinityBowWorks: false
-#Automatically update the plugin to a newer version?
-AutoUpdate: false
 #Can Skeletons shoot arrows? --> Define % in SkeletonArrows.yml!
 SkeletonCanShootArrow: true
 #Should Skeletons drop special arrows?

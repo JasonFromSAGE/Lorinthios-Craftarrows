@@ -46,7 +46,7 @@ public class CoolingArrowVariant extends ArrowVariant{
                 Location location = arrow.getLocation();
                 Block block = location.getBlock();
                 Material material = block.getType();
-                if (material == Material.LAVA || material == Material.STATIONARY_LAVA) {
+                if (material == Material.LAVA) {
                     arrow.remove();
                     cool(location);
                     cancel();
@@ -76,7 +76,7 @@ public class CoolingArrowVariant extends ArrowVariant{
             for(int y=-1; y<=2; y++){
                 for(int z=-1; z<=1; z++){
                     Block relative = block.getRelative(x, y, z);
-                    if(relative.getType() == Material.LAVA || relative.getType() == Material.STATIONARY_LAVA){
+                    if(relative.getType() == Material.LAVA){
                         changed.put(relative, relative.getType());
                         relative.setType(Material.OBSIDIAN);
                     }
