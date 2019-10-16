@@ -1,6 +1,6 @@
 name: LorinthsCraftArrows
-api-version: 1.14
-version: 1.4.0
+api-version: 1.13
+version: 1.4.1
 description: Lorinths updated version of CraftArrows, adds 30 Custom Arrows
 main: me.lorinth.craftarrows.LorinthsCraftArrows
 softdepend: [Citizens, WorldGuard]

@@ -6,3 +6,5 @@ InfinityBowWorks: false
 SkeletonCanShootArrow: true
 #Should Skeletons drop special arrows?
 SkeletonsDropArrows: true
+#Should Skeletons only drop special arrows when killed by Player?
+SkeletonsDropArrowsOnlyOnPlayerKill: true

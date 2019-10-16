@@ -152,6 +152,11 @@ public class CraftArrowListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onSkeletonDeath(EntityDeathEvent event){
         if(event.getEntity() instanceof Skeleton && properties.SkeletonsDropArrows){
+            if(properties.SkeletonsDropArrowsOnlyOnPlayerKill){
+                if(event.getEntity().getKiller() == null)
+                    return;
+            }
+
             List<ItemStack> drops = event.getDrops();
             for(int i=0; i<drops.size(); i++){
                 ItemStack item = drops.get(i);

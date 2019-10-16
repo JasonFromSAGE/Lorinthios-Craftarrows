@@ -11,6 +11,7 @@ import me.lorinth.craftarrows.Objects.ArrowDropData;
 import me.lorinth.craftarrows.Objects.Properties;
 import me.lorinth.craftarrows.Objects.RandomCollection;
 import me.lorinth.craftarrows.Objects.Tuple;
+import me.lorinth.craftarrows.Util.ConfigHelper;
 import me.lorinth.craftarrows.Util.NmsHelper;
 import me.lorinth.craftarrows.Util.OutputHandler;
 import me.lorinth.craftarrows.WorldGuard.NoCraftArrowFlag;
@@ -93,11 +94,30 @@ public class LorinthsCraftArrows extends JavaPlugin {
     }
 
     private void loadConfig(){
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
+        File configFile = new File(getDataFolder(), "config.yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         properties.UsePermissions = config.getBoolean("UsePermissions");
         properties.InfinityBowWorks = config.getBoolean("InfinityBowWorks");
         properties.SkeletonCanShootArrow = config.getBoolean("SkeletonCanShootArrow");
         properties.SkeletonsDropArrows = config.getBoolean("SkeletonsDropArrows");
+
+        boolean changed = false;
+        if(ConfigHelper.ConfigContainsPath(config, "SkeletonsDropArrowsOnlyOnPlayerKill")) {
+            properties.SkeletonsDropArrowsOnlyOnPlayerKill = config.getBoolean("SkeletonsDropArrowsOnlyOnPlayerKill");
+        }
+        else {
+            config.set("SkeletonsDropArrowsOnlyOnPlayerKill", true);
+            changed = true;
+        }
+
+        if (changed) {
+            try{
+                config.save(configFile);
+                loadConfig();
+            } catch(Exception e){
+                OutputHandler.PrintException("Error saving config on startup", e);
+            }
+        }
     }
 
     private void setupCommands(){

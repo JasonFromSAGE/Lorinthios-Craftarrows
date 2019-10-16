@@ -7,5 +7,6 @@ public class Properties {
     public static boolean AutoUpdate = false;
     public static boolean SkeletonCanShootArrow = true;
     public static boolean SkeletonsDropArrows = true;
+    public static boolean SkeletonsDropArrowsOnlyOnPlayerKill = true;
 
 }
